@@ -1,0 +1,29 @@
+<div class="container">
+  <h2 mat-dialog-title>Selection information and assigned students </h2>
+  <div mat-dialog-content>
+    Selection id: {{model.id}}
+    <p></p>
+    Selection name: {{model.selectionName}}
+    <p></p>
+    Status: {{model.statusName}}
+    <p></p>
+    Program: {{model.programName}}
+    <p></p>
+    Year: {{model.year}}
+    <p></p>
+    Attendees: 
+    <p></p>
+    <ul *ngFor="let student of model.students">
+      <li>Id: {{student.id}} <br/> Name: {{student.fullName}} </li>
+    </ul>
+    <p></p>
+  </div>
+
+  <form class="mat-dialog-content"(ngSubmit)="submit"  #formControl="ngForm">
+    <!--Textarea for demo purposes-->
+   
+    
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()" tabindex="-1">Return</button>
+    </div>
+  </form>

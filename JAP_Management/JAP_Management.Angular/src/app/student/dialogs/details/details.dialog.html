@@ -1,0 +1,31 @@
+<div class="container">
+  <h2 mat-dialog-title>Student information and comments </h2>
+  <div mat-dialog-content>
+    Id: {{model.id}}
+    <p></p>
+    Full name: {{model.fullName}}
+    <p></p>
+    Mentor: {{model.mentorName}}
+    <p></p>
+    Program: {{model.programName}}
+    <p></p>
+    Selection: {{model.selectionName}}
+    <p></p>
+    You can see your previous, or add a new comment for the student:
+  </div>
+
+  <form class="mat-dialog-content"(ngSubmit)="submit"  #formControl="ngForm">
+    <!--Textarea for demo purposes-->
+    <div class="form">
+      <mat-form-field color="accent">
+        <textarea matInput #input class="form-control" [(ngModel)]="model.commentByUser" placeholder="Comment"  name="comment" maxlength="50" required ></textarea>
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        <mat-hint >{{input.value?.length || 0}}/50</mat-hint>
+      </mat-form-field>
+    </div>
+    
+    <div mat-dialog-actions>
+      <button mat-button [mat-dialog-close]="1" [disabled]="!formControl.valid" (click)="addComment()">Add</button>
+      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    </div>
+  </form>

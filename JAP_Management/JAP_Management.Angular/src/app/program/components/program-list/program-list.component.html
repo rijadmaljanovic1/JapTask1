@@ -1,0 +1,60 @@
+<mat-toolbar style="background-color: #1d1e2c; color: white;">
+  <span >Program Dashboard</span>
+  <span class="spacer"></span>
+  
+  <button style="color: white;" mat-icon-button (click)="refresh()" >
+    <mat-icon>refresh</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="container mat-elevation-z8">
+
+  <div class="form"> 
+    
+    <mat-form-field floatPlaceholder="never" color="accent">
+      <input matInput #filter placeholder="Search" (keyup)="onSearchKeyUp($any($event.target).value)">
+    </mat-form-field>
+
+  </div>
+
+  <div style="text-align: center;" *ngIf="!searchResult"><h1>No results</h1></div>
+  <mat-table *ngIf="searchResult"  #table [dataSource]="dataSource" matSort  matSortActive="id"  class="mat-cell" >
+    
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="id">Id</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="name">Name</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="description">Description</mat-header-cell>
+      <mat-cell *matCellDef="let row" > {{row.description}}</mat-cell>
+    </ng-container>
+
+    <!-- actions -->
+    <ng-container matColumnDef="actions" >
+      <mat-header-cell *matHeaderCellDef mat-sort-header="details">Details
+        
+      </mat-header-cell>
+
+      <mat-cell *matCellDef="let row; let i=index;">
+        <button mat-icon-button color="navy" (click)="details(row.id)">
+          <mat-icon aria-label="Details">assignment</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+<div style="text-align: right; margin: 1%;">
+  <span  class="card-text" style="font-size:15px;margin-right: 2%;"><small class="text-muted">Total items found: 4</small></span>
+</div>
+
+</div>

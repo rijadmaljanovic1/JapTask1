@@ -1,0 +1,74 @@
+<div class="container">
+  <h3 mat-dialog-title>Update student information</h3>
+
+  <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <textarea matInput #input class="form-control" placeholder="First name" [(ngModel)]="model.firstName" name="firstName" maxlength="30" required ></textarea>
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        <mat-hint >{{input.value?.length || 0}}/30</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <!--Contains mat-hint for characters count and has maxLengt set-->
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #inputstate class="form-control" placeholder="Last name" [(ngModel)]="model.lastName" name="lastName" maxlength="30" required >
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        <mat-hint >{{inputstate.value?.length || 0}}/30</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+
+      <mat-form-field appearance="legacy" >
+        <mat-label>Mentor</mat-label>
+        <mat-select (selectionChange)="changeMentor($event.value)" [(value)]="model.mentorId">
+          <mat-option *ngFor="let select of mentorSelection"  [value]="select.value" >
+            {{select.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+    <div class="form">
+       <mat-form-field appearance="legacy" >
+        <mat-label>Program</mat-label>
+        <mat-select (selectionChange)="changeProgram($event.value)" [(value)]="model.programId">
+          <mat-option *ngFor="let select of programSelection" [value]="select.value" >
+            {{select.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field appearance="legacy" >
+        <mat-label>Selection</mat-label>
+        <mat-select (selectionChange)="changeSelection($event.value)" [(value)]="model.selectionId">
+          <mat-option *ngFor="let select of selectionSelection" [value]="select.value" >
+            {{select.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field appearance="legacy" >
+        <mat-label>Status</mat-label>
+        <mat-select (selectionChange)="changeStatus($event.value)" [(value)]="model.studentStatusId">
+          <mat-option *ngFor="let select of statusSelection" [value]="select.value" >
+            {{select.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button  [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
+      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    </div>
+  </form>
+</div>

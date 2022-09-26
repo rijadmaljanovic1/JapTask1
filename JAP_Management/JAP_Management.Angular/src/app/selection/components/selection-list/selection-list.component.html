@@ -1,0 +1,91 @@
+<mat-toolbar style="background-color: #1d1e2c; color: white;">
+    <span >Selections Dashboard</span>
+    <span class="spacer"></span>
+    
+    <button style="color: white;" mat-icon-button (click)="refresh()" >
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </mat-toolbar>
+  
+  <div class="container mat-elevation-z8">
+  
+    <div class="form"> 
+      
+      <mat-form-field appearance="legacy" >
+        <mat-label>Filter by column</mat-label>
+        <mat-select (selectionChange)="changeFilter($event.value)">
+          <mat-option *ngFor="let select of filterSelection" [value]="select.value" >
+            {{select.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field floatPlaceholder="never" color="accent">
+        <input matInput #filter placeholder="Search" (keyup)="onSearchKeyUp($any($event.target).value)">
+      </mat-form-field>
+  
+    </div>
+  
+    <div style="text-align: center;" *ngIf="!searchResult"><h1>No results</h1></div>
+    <mat-table *ngIf="searchResult"  #table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="id"  class="mat-cell" >
+      
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef  mat-sort-header="id">Id</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="selectionName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="selectionName">Name</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.selectionName}} </mat-cell>
+      </ng-container>
+  
+  
+      <ng-container matColumnDef="statusName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="statusName">Status</mat-header-cell>
+        <mat-cell *matCellDef="let row" > {{row.statusName}}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="programName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="programName">Program</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.programName}}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="year">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="year">Year</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.year}}</mat-cell>
+      </ng-container>
+  
+      <!-- actions -->
+      <ng-container matColumnDef="actions" >
+        <mat-header-cell *matHeaderCellDef >
+          <button mat-icon-button color="primary" (click)="addNew()"> 
+            <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+          </button>
+        </mat-header-cell>
+  
+        <mat-cell *matCellDef="let row; let i=index;">
+          <button mat-icon-button color="navy" (click)="details(row.id)">
+            <mat-icon aria-label="Details">assignment</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" (click)="startEdit(row.id)">
+            <mat-icon aria-label="Edit">edit</mat-icon>
+          </button>
+  
+          <button mat-icon-button color="" (click)="deleteItem(row.id)">
+            <mat-icon aria-label="Delete">delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  
+  <div style="text-align: right; margin: 1%;">
+    <span  class="card-text" style="font-size:15px;margin-right: 2%;"><small class="text-muted">Items per page: 5</small></span>
+    <span class="material-icons" style="cursor: pointer; color: #9b9db1;" (click)="loadLess()"> arrow_back_ios </span>
+    <span class="material-icons" style="transform: rotateY(180deg); cursor: pointer; color: #9b9db1;" (click)="loadMore()"> arrow_back_ios </span>
+  </div>
+  
+  </div>
+  

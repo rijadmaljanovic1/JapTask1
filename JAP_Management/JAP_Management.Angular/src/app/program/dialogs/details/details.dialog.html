@@ -1,0 +1,24 @@
+<div class="container">
+  <h2 mat-dialog-title>Program information and technologies </h2>
+  <div mat-dialog-content>
+    Id: {{model.id}}
+    <p></p>
+    Full name: {{model.name}}
+    <p></p>
+    Description: {{model.description}}
+    <p></p>
+    Technologies: 
+    <p></p>
+    <ul *ngFor="let technology of model.technologies">
+      <li>{{technology.name}}</li>
+    </ul>
+    <p></p>
+  </div>
+
+  <form class="mat-dialog-content"(ngSubmit)="submit"  #formControl="ngForm">
+   
+    
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()" >Return</button>
+    </div>
+  </form>
