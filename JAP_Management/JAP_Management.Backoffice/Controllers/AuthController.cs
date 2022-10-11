@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace JAP_Management.Backoffice.Controllers
 {
@@ -15,7 +16,6 @@ namespace JAP_Management.Backoffice.Controllers
     public class AuthController : Controller
     {
         private IUserService _userService;
-
         public AuthController(IUserService userService)
         {
             _userService = userService;

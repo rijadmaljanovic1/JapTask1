@@ -37,7 +37,7 @@ namespace JAP_Management.Repositories.Repositories.Base
         }
        
         //Delete
-        public async Task<T> Delete(int id) 
+        public async Task<T> Delete(string id) 
         {
             var entity = await _context.Set<T>().FindAsync(id);
 
@@ -53,6 +53,24 @@ namespace JAP_Management.Repositories.Repositories.Base
 
             return entity;
         }
-        
+
+        //Delete
+        public async Task<T> DeleteSelection(int id)
+        {
+            var entity = await _context.Set<T>().FindAsync(id);
+
+            if (entity == null)
+            {
+                return entity;
+            }
+
+
+            _context.Set<T>().Remove(entity);
+
+            await _context.SaveChangesAsync();
+
+            return entity;
+        }
+
     }
 }

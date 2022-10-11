@@ -1,5 +1,5 @@
 export class StudentModel{
-    id:number=0;
+    baseUserId:string="";
     fullName:string="";
     mentorName:string="";
     programName:string="";
@@ -8,9 +8,10 @@ export class StudentModel{
     commentByUser:string="";
 }
 export class StudentUpsertRequest{
-    id:number=0;
+    baseUserId:string="";
     firstName:string="";
     lastName:string="";
+    email:string="";
     mentorId:number=0;
     selectionId:number=0;
     programId:number=0;

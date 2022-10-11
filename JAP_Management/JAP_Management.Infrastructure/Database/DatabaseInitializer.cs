@@ -1,5 +1,7 @@
 ﻿using JAP_Management.Core.Entities;
 using JAP_Management.Core.Helpers;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,29 +18,189 @@ namespace JAP_Management.Infrastructure.Database
             context.Database.Migrate();
         }
 
-        public static void Initialize(DatabaseContext context)
+        public async static void Initialize(DatabaseContext context, RoleManager<IdentityRole> roleManager, UserManager<BaseUser> userManager)
         {
             context.Database.EnsureCreated();
+
+            #region RolesDataSeed
+
+            bool adminRoleReady = false;
+            bool studentRoleReady = false;
+
+            var admin = new IdentityRole()
+            {
+                Name = "Admin",
+            };
+
+            var res = roleManager.CreateAsync(admin).Result;
+
+            var student = new IdentityRole()
+            {
+                Name = "Student",
+            };
+
+            var res1 = roleManager.CreateAsync(student).Result;
+
+            adminRoleReady = res.Succeeded;
+            studentRoleReady = res1.Succeeded;
+
+            #endregion
 
             #region UserDataSeed
 
             var userList = new List<BaseUser>();
 
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 8; i++)
             {
                 var salt = PasswordHashSaltGenerator.GenerateSalt();
 
                 var usernamePassword = "User" + i;
 
-                userList.Add(new BaseUser
+                if (i == 1)
                 {
-                    Username = usernamePassword,
-                    PasswordSalt = salt,
-                    PasswordHash = PasswordHashSaltGenerator.HashPassword(salt, usernamePassword)
-                });
+                    userList.Add(new BaseUser
+                    {
+                        FirstName = "Adnan",
+                        LastName = "Mahovkic",
+                        UserName = usernamePassword,
+                        PasswordSalt = salt,
+                        PasswordHash = PasswordHashSaltGenerator.HashPassword(salt, usernamePassword)
+                    });
+                }
+                else if (i == 2)
+                {
+                    userList.Add(new BaseUser
+                    {
+                        FirstName = "Damir",
+                        LastName = "Morankic",
+                        UserName = usernamePassword,
+                        PasswordSalt = salt,
+                        PasswordHash = PasswordHashSaltGenerator.HashPassword(salt, usernamePassword)
+                    });
+                }
+                else if (i == 3)
+                {
+                    userList.Add(new BaseUser
+                    {
+                        FirstName = "Denis",
+                        LastName = "Music",
+                        UserName = usernamePassword,
+                        PasswordSalt = salt,
+                        PasswordHash = PasswordHashSaltGenerator.HashPassword(salt, usernamePassword)
+                    });
+                }
+                else if (i == 4)
+                {
+                    userList.Add(new BaseUser
+                    {
+                        FirstName = "Jasmin",
+                        LastName = "Azemovic",
+                        UserName = usernamePassword,
+                        PasswordSalt = salt,
+                        PasswordHash = PasswordHashSaltGenerator.HashPassword(salt, usernamePassword)
+                    });
+                }
+                else if (i == 5)
+                {
+                    userList.Add(new BaseUser
+                    {
+                        FirstName = "Admir",
+                        LastName = "Sehidic",
+                        UserName = usernamePassword,
+                        PasswordSalt = salt,
+                        PasswordHash = PasswordHashSaltGenerator.HashPassword(salt, usernamePassword)
+                    });
+                }
+                else if (i == 6)
+                {
+                    userList.Add(new BaseUser
+                    {
+                        FirstName = "Larisa",
+                        LastName = "Dedovic",
+                        UserName = usernamePassword,
+                        PasswordSalt = salt,
+                        PasswordHash = PasswordHashSaltGenerator.HashPassword(salt, usernamePassword)
+                    });
+                }
+                else if (i == 7)
+                {
+                    userList.Add(new BaseUser
+                    {
+                        FirstName = "Nina",
+                        LastName = "Bijedic",
+                        UserName = usernamePassword,
+                        PasswordSalt = salt,
+                        PasswordHash = PasswordHashSaltGenerator.HashPassword(salt, usernamePassword)
+                    });
+                }
+                else if (i == 8)
+                {
+                    userList.Add(new BaseUser
+                    {
+                        FirstName = "Elmir",
+                        LastName = "Babovic",
+                        UserName = usernamePassword,
+                        PasswordSalt = salt,
+                        PasswordHash = PasswordHashSaltGenerator.HashPassword(salt, usernamePassword)
+                    });
+                }
             }
             context.Users.AddRange(userList);
             context.SaveChanges();
+
+            #endregion
+
+            #region AdminUserDataSeed
+
+            var adminUserList = new List<BaseUser>();
+
+            for (int i = 1; i <= 2; i++)
+            {
+                var salt = PasswordHashSaltGenerator.GenerateSalt();
+
+                var usernamePassword = "admin" + i;
+
+                if (i == 1)
+                {
+                    adminUserList.Add(new BaseUser
+                    {
+                        FirstName = "Rijad",
+                        LastName = "Maljanovic",
+                        UserName = usernamePassword,
+                        PasswordSalt = salt,
+                        PasswordHash = PasswordHashSaltGenerator.HashPassword(salt, usernamePassword)
+                    });
+                }
+                else if (i == 2)
+                {
+                    adminUserList.Add(new BaseUser
+                    {
+                        FirstName = "Harun",
+                        LastName = "Cavcic",
+                        UserName = usernamePassword,
+                        PasswordSalt = salt,
+                        PasswordHash = PasswordHashSaltGenerator.HashPassword(salt, usernamePassword)
+                    });
+                }
+
+            }
+            context.Users.AddRange(adminUserList);
+            context.SaveChanges();
+
+            #endregion
+
+            #region UserRolesDataSeed
+
+            var users = context.Users.ToList();
+
+            for (int i = 0; i < users.Count; i++)
+            {
+                if(users[i].FirstName == "Rijad" || users[i].FirstName == "Harun")
+                    await userManager.AddToRoleAsync(new BaseUser() { Id = users[i].Id }, "Admin");
+                else
+                    await userManager.AddToRoleAsync(new BaseUser() { Id = users[i].Id }, "Student");
+
+            }
 
             #endregion
 
@@ -337,239 +499,42 @@ namespace JAP_Management.Infrastructure.Database
 
             var studentList = new List<Student>();
 
-            for (int i = 1; i <= 13; i++)
+            for (int i = 0; i < userList.Count; i++)
             {
-                if (i == 1)
+                studentList.Add(new Student
                 {
-                    studentList.Add(new Student
-                    {
-                        FirstName = "Denis",
-                        LastName = "Music",
-                        StudentStatusId = 1,
-                        DateOfBirth = DateTime.Now,
-                        MentorId = 1,
-                        SelectionId = 1,
-                        ProgramId = 1
-                    });
-                }
-                else if (i == 2)
-                {
-                    studentList.Add(new Student
-                    {
-                        FirstName = "Elmir",
-                        LastName = "Babovic",
-                        DateOfBirth = DateTime.Now,
-                        StudentStatusId = 3,
-                        MentorId = 2,
-                        SelectionId = 2,
-                        ProgramId = 2
-                    });
-                }
-                else if (i == 3)
-                {
-                    studentList.Add(new Student
-                    {
-                        FirstName = "Jasmin",
-                        LastName = "Azemovic",
-                        DateOfBirth = DateTime.Now,
-                        StudentStatusId = 2,
-                        MentorId = 1,
-                        SelectionId = 3,
-                        ProgramId = 3
-                    });
-                }
-                else if (i == 4)
-                {
-                    studentList.Add(new Student
-                    {
-                        FirstName = "Amel",
-                        LastName = "Music",
-                        DateOfBirth = DateTime.Now,
-                        StudentStatusId = 1,
-                        MentorId = 3,
-                        SelectionId = 5,
-                        ProgramId = 3
-                    });
-                }
-                else if (i == 5)
-                {
-                    studentList.Add(new Student
-                    {
-                        FirstName = "Lejla",
-                        LastName = "Jazvin",
-                        DateOfBirth = DateTime.Now,
-                        StudentStatusId = 1,
-                        MentorId = 3,
-                        SelectionId = 2,
-                        ProgramId = 2
-                    });
-                }
-                else if (i == 6)
-                {
-                    studentList.Add(new Student
-                    {
-                        FirstName = "Irma",
-                        LastName = "Dedic",
-                        DateOfBirth = DateTime.Now,
-                        StudentStatusId = 4,
-                        MentorId = 4,
-                        SelectionId = 2,
-                        ProgramId = 2
-                    });
-                }
-                else if (i == 7)
-                {
-                    studentList.Add(new Student
-                    {
-                        FirstName = "Larisa",
-                        LastName = "Dedovic",
-                        DateOfBirth = DateTime.Now,
-                        StudentStatusId = 2,
-                        MentorId = 2,
-                        SelectionId = 4,
-                        ProgramId = 4
-                    });
-                }
-                else if (i == 8)
-                {
-                    studentList.Add(new Student
-                    {
-                        FirstName = "Admir",
-                        LastName = "Sehidic",
-                        DateOfBirth = DateTime.Now,
-                        StudentStatusId = 1,
-                        MentorId = 1,
-                        SelectionId = 3,
-                        ProgramId = 3
-                    });
-                }
-                else if (i == 9)
-                {
-                    studentList.Add(new Student
-                    {
-                        FirstName = "Veldin",
-                        LastName = "Ovcina",
-                        DateOfBirth = DateTime.Now,
-                        StudentStatusId = 3,
-                        MentorId = 2,
-                        SelectionId = 2,
-                        ProgramId = 2
-                    });
-                }
-                else if (i == 10)
-                {
-                    studentList.Add(new Student
-                    {
-                        FirstName = "Damir",
-                        LastName = "Morankic",
-                        DateOfBirth = DateTime.Now,
-                        StudentStatusId = 3,
-                        MentorId = 3,
-                        SelectionId = 3,
-                        ProgramId = 3
-                    });
-                }
-                else if (i == 11)
-                {
-                    studentList.Add(new Student
-                    {
-                        FirstName = "Adnan",
-                        LastName = "Mahovkic",
-                        DateOfBirth = DateTime.Now,
-                        StudentStatusId = 2,
-                        MentorId = 4,
-                        SelectionId = 4,
-                        ProgramId = 4
-                    });
-                }
-                else if (i == 12)
-                {
-                    studentList.Add(new Student
-                    {
-                        FirstName = "Mirza",
-                        LastName = "Salkic",
-                        DateOfBirth = DateTime.Now,
-                        StudentStatusId = 2,
-                        MentorId = 2,
-                        SelectionId = 2,
-                        ProgramId = 4
-                    });
-                }
-                else if (i == 13)
-                {
-                    studentList.Add(new Student
-                    {
-                        FirstName = "Muhamed",
-                        LastName = "Fazlic",
-                        DateOfBirth = DateTime.Now,
-                        StudentStatusId = 2,
-                        MentorId = 4,
-                        SelectionId = 4,
-                        ProgramId = 4
-                    });
-                }
+                    BaseUserId = userList[i].Id,
+                    MentorId = 1,
+                    SelectionId = 1,
+                    ProgramId = 1,
+                    StudentStatusId = 1,
+                });
+
             }
             context.Students.AddRange(studentList);
             context.SaveChanges();
 
             #endregion
 
-            #region CommentsDataSeed
+            #region AdminDataSeed
 
-            var commentList = new List<Comments>();
+            var adminList = new List<Admin>();
+            var rijad = context.Users.Where(x => x.FirstName == "Rijad").FirstOrDefault();
+            var harun = context.Users.Where(x => x.FirstName == "Harun").FirstOrDefault();
 
-            for (int i = 1; i <= 5; i++)
+            adminList.Add(new Admin
             {
-                if (i==1)
-                {
-                    commentList.Add(new Comments
-                    {
-                        UserId = 1,
-                        StudentId = 1,
-                        Comment = "Good student"
-                    });
-                }
-                else if (i == 2)
-                {
-                    commentList.Add(new Comments
-                    {
-                        UserId = 1,
-                        StudentId = 2,
-                        Comment = "Nothing special"
-                    });
-                }
-                else if (i == 3)
-                {
-                    commentList.Add(new Comments
-                    {
-                        UserId = 1,
-                        StudentId = 4,
-                        Comment = "Smart but lazy"
-                    });
-                }
-                else if (i == 4)
-                {
-                    commentList.Add(new Comments
-                    {
-                        UserId = 1,
-                        StudentId = 5,
-                        Comment = "Passed the first test"
-                    });
-                }
-                else if (i == 5)
-                {
-                    commentList.Add(new Comments
-                    {
-                        UserId = 1,
-                        StudentId = 7,
-                        Comment = "Ok"
-                    });
-                }
-            }
-            context.Comments.AddRange(commentList);
+                BaseUserId = rijad.Id
+            });
+            adminList.Add(new Admin
+            {
+                BaseUserId = harun.Id
+            });
+            context.Admins.AddRange(adminList);
             context.SaveChanges();
 
             #endregion
+
         }
     }
 }

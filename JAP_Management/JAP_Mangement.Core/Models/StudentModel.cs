@@ -8,7 +8,7 @@ namespace JAP_Management.Core.Models
 {
     public class StudentModel 
     {
-        public int Id{ get; set; }
+        public string BaseUserId{ get; set; }
         public string? FullName { get; set; }
         //public DateTime DateOfBirth { get; set; }
         public string MentorName{ get; set; }

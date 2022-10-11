@@ -26,6 +26,7 @@ export class StudentService extends BaseService{
 
 
   addStudent(model: StudentUpsertRequest): void {
+    model.baseUserId='';
     let url=`${environment.studentsURL}/add`;
     this.httpClient.post(url, model, { headers: this._headers }).subscribe(data => {
       this.dialogData = model;
@@ -36,13 +37,13 @@ export class StudentService extends BaseService{
 
    updateStudent(model: StudentUpsertRequest): void {
     let url=`${environment.studentsURL}/update/`;
-    this.httpClient.put(url + model.id, model, { headers: this._headers }).subscribe(data => {
+    this.httpClient.put(url + model.baseUserId, model, { headers: this._headers }).subscribe(data => {
         this.dialogData = model;
       },
       (err: HttpErrorResponse) => {
       });
   }
-  deleteStudent(id: number): void {
+  deleteStudent(id: string): void {
     let url=`${environment.studentsURL}/delete/`;
 
     this.httpClient.delete(url + id, { headers: this._headers }).subscribe(data => {
@@ -53,17 +54,17 @@ export class StudentService extends BaseService{
     );
   }
 
-  getById(studentId:number):Observable<any>{
+  getById(studentId:string):Observable<any>{
     let url=`${environment.studentsURL}/${studentId}`;
     return this.get(url);
   }
 
-  getByUpsertId(id:number):Observable<any>{
+  getByUpsertId(id:string):Observable<any>{
     let url=`${environment.studentsURL}/get/${id}`;
     return this.get(url);
   }
 
-  commentStudent(id:number,model:StudentModel){
+  commentStudent(id:string,model:StudentModel){
     let url=`${environment.studentsURL}/comment/`;
 
     this.httpClient.post(url + id,model, { headers: this._headers }).subscribe(data => {

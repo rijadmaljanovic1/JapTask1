@@ -10,13 +10,13 @@ namespace JAP_Management.Services.Services.Students
 {
     public interface IStudentService
     {
-        Task<List<StudentModel>> GetStudentsAsync(StudentSearchRequestModel studentRequestModel, int userId);
+        Task<List<StudentModel>> GetStudentsAsync(StudentSearchRequestModel studentRequestModel, string userId);
         Task<StudentUpsertRequest> AddStudentAsync(StudentUpsertRequest model);
-        Task<StudentModel> CommentStudentAsync(int studentId, int userId, string comment);
-        Task<StudentModel> GetStudentById(int studentId, int userId);
-        Task<StudentUpsertRequest> UpdateStudentAsync(int studentId, StudentUpsertRequest model);
-        Task<StudentUpsertRequest> GetStudentByUpsertId(int studentId, int userId);
-        Task<StudentModel> DeleteStudentAsync(int id);
+        Task<StudentModel> CommentStudentAsync(string studentId, string userId, string comment);
+        Task<StudentModel> GetStudentById(string studentId, string userId);
+        Task<StudentUpsertRequest> UpdateStudentAsync(string studentId, StudentUpsertRequest model);
+        Task<StudentUpsertRequest> GetStudentByUpsertId(string studentId, string userId);
+        Task<StudentModel> DeleteStudentAsync(string id);
 
     }
 }

@@ -27,7 +27,7 @@ interface Filter {
 })
 export class StudentListComponent extends BaseComponent implements OnInit {
 
-  displayedColumns= ['id','fullName', 'studentStatusName', 'mentorName','selectionName', 'actions'];
+  displayedColumns= ['baseUserId','fullName', 'studentStatusName', 'mentorName','selectionName', 'actions'];
   studentsDataSource: Array<StudentModel> = new Array<StudentModel>();
   dataSource = new MatTableDataSource<StudentModel>(this.studentsDataSource);
   studentsDataSourceTemporary: Array<StudentModel> = new Array<StudentModel>();
@@ -42,7 +42,7 @@ export class StudentListComponent extends BaseComponent implements OnInit {
   sorting:number=0;
   searchResult:boolean=true;
   filterRequest:number=0;
-  id: number;
+  id: string;
   studentModel: StudentUpsertRequest=new StudentUpsertRequest();
 
   filterSelection: Filter[] = [
@@ -92,7 +92,7 @@ export class StudentListComponent extends BaseComponent implements OnInit {
       this.sortedData = data;
       return;
     }
-    if(sort.active=='id'){
+    if(sort.active=='baseUserId'){
       this.sorting=1;
       this.loadData();
     }
@@ -212,7 +212,7 @@ export class StudentListComponent extends BaseComponent implements OnInit {
     this.loadData();
   }
 
-  details(id: number) {
+  details(id: string) {
    
     const dialogRef = this.dialog.open(DetailsDialogComponent, {
       data: {id: id}
@@ -240,7 +240,7 @@ export class StudentListComponent extends BaseComponent implements OnInit {
     });
   }
 
-  startEdit(id: number) {
+  startEdit(id: string) {
     this.id = id;
     const dialogRef = this.dialog.open(EditDialogComponent, {
       data: {id: id}
@@ -255,7 +255,7 @@ export class StudentListComponent extends BaseComponent implements OnInit {
     });
   }
 
-  deleteItem(id: number) {
+  deleteItem(id: string) {
     this.id = id;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {id: id}

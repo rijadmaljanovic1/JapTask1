@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JAP_Management.Backoffice.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     [EnableCors("CorsApi")]
     [Route("api/[controller]")]
     [ApiController]
@@ -111,26 +111,26 @@ namespace JAP_Management.Backoffice.Controllers
 
         #endregion
 
-        #region DeleteProgram
+        //#region DeleteProgram
 
-        [HttpDelete]
-        public async Task<ActionResult<ProgramModel>> DeleteProgram(int id)
-        {
-            try
-            {
-                //var userId = JwtHelper.GetUserIdFromToken(HttpContext.User);
+        //[HttpDelete]
+        //public async Task<ActionResult<ProgramModel>> DeleteProgram(int id)
+        //{
+        //    try
+        //    {
+        //        //var userId = JwtHelper.GetUserIdFromToken(HttpContext.User);
 
-                var deletedProgram = await _programService.DeleteProgramAsync(id);
+        //        var deletedProgram = await _programService.DeleteProgramAsync(id);
 
-                return Ok(deletedProgram);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error ->", ex);
-                return StatusCode(500, "Something went wrong!");
-            }
-        }
+        //        return Ok(deletedProgram);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("Error ->", ex);
+        //        return StatusCode(500, "Something went wrong!");
+        //    }
+        //}
 
-        #endregion
+        //#endregion
     }
 }

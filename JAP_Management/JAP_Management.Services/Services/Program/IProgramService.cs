@@ -11,8 +11,8 @@ namespace JAP_Management.Services.Services.Program
     {
         Task<List<ProgramModel>> GetProgramsAsync(ProgramSearchRequestModel programModel);
         Task<ProgramModel> AddProgramAsync(ProgramModel model);
-        Task<JAP_Management.Core.Entities.Program> GetProgramById(int programId, int userId);
+        Task<JAP_Management.Core.Entities.Program> GetProgramById(int programId, string userId);
         Task<ProgramModel> UpdateProgramAsync(int programId, ProgramModel model);
-        Task<ProgramModel> DeleteProgramAsync(int id);
+        //Task<ProgramModel> DeleteProgramAsync(int id);
     }
 }

@@ -19,6 +19,7 @@ namespace JAP_Management.Repositories.Repositories.Students
         {
             _databaseContext = databaseContext;
         }
+
         public async Task<List<Student>> GetStudentsAsync(StudentSearchRequestModel studentRequestModel)
         {
             try
@@ -29,6 +30,7 @@ namespace JAP_Management.Repositories.Repositories.Students
                     .Include(m => m.Selection)
                     .Include(m => m.StudentStatus)
                     .Include(m => m.Mentor)
+                    .Include(m=>m.BaseUser)
                     .Include(m => m.Program)
                     .ThenInclude(m => m.Technologies)
                     .ToListAsync();
@@ -46,10 +48,26 @@ namespace JAP_Management.Repositories.Repositories.Students
                 return null;
             }
         }
+       
+        public async Task<Student> AddStudentAsync(Student mappedStudent)
+        {
+            var newStudent= new Student()
+            {
+                BaseUserId = mappedStudent.BaseUserId,
+                MentorId = mappedStudent.MentorId,
+                SelectionId = mappedStudent.SelectionId,
+                ProgramId = mappedStudent.ProgramId,
+                StudentStatusId = mappedStudent.StudentStatusId
+            };
+            _databaseContext.Students.Add(newStudent);
+            _databaseContext.SaveChanges();
+
+            return newStudent;
+        }
 
         private bool Search(Student student, SearchModel searchModel, int filter = 0)
         {
-            if (searchModel == null)
+            if (searchModel.Value=="")
             {
                 return true;
             }
@@ -57,12 +75,12 @@ namespace JAP_Management.Repositories.Repositories.Students
 
             if (filter == 0 || filter == 1)
             {
-                var x = student.FirstName.ToLower().Contains(searchModel.Value);
+                var x = student.BaseUser.FirstName.ToLower().Contains(searchModel.Value);
                 return x;
             }
             else if (filter == 2)
             {
-                var x = student.LastName.ToLower().Contains(searchModel.Value);
+                var x = student.BaseUser.LastName.ToLower().Contains(searchModel.Value);
                 return x;
             }
             else if (filter == 3)
@@ -87,11 +105,11 @@ namespace JAP_Management.Repositories.Repositories.Students
         {
             if (sorting == 1)
             {
-                return student.Id;
+                return student.BaseUserId;
             }
             else if (sorting == 2)
             {
-                return student.FirstName;
+                return student.BaseUser.FirstName;
             }
             else if (sorting == 3)
             {
@@ -105,34 +123,35 @@ namespace JAP_Management.Repositories.Repositories.Students
             {
                 return student.Mentor.FullName;
             }
-            return student.Id;
+            return student.BaseUserId;
         }
 
-        public async Task<Student> GetStudentById(int studentId)
+        public async Task<Student> GetStudentById(string studentId)
         {
             var student = await _databaseContext.Students
                 .Include(z => z.Comments)
                 .Include(m => m.Selection)
                 .Include(m => m.StudentStatus)
+                .Include(m=>m.BaseUser)
                 .Include(m => m.Mentor)
                 .Include(m => m.Program)
                 .ThenInclude(m => m.Technologies)
-                .FirstOrDefaultAsync(m => m.Id == studentId);
+                .FirstOrDefaultAsync(m => m.BaseUserId == studentId);
 
             return student;
         }
 
-        public async Task<Student> CommentStudentAsync(int studentId, int userId, string comment)
+        public async Task<Student> CommentStudentAsync(string studentId, string userId, string comment)
         {
-            if (!await _databaseContext.Students.AnyAsync(m => m.Id == studentId))
+            if (!await _databaseContext.Students.AnyAsync(m => m.BaseUserId == studentId))
                 return null;
 
-            var studentComment = await _databaseContext.Comments.FirstOrDefaultAsync(mr => mr.UserId == userId && mr.StudentId == studentId);
+            var studentComment = await _databaseContext.Comments.FirstOrDefaultAsync(mr => mr.AdminId == userId && mr.StudentId == studentId);
 
             if (studentComment == null)
             {
                 await _databaseContext.Comments.AddAsync(
-                    new Comments { UserId = userId, StudentId = studentId, Comment = comment });
+                    new Comments { AdminId = userId, StudentId = studentId, Comment = comment });
             }
             else
             {
@@ -142,7 +161,7 @@ namespace JAP_Management.Repositories.Repositories.Students
             await _databaseContext.SaveChangesAsync();
 
             return await _databaseContext.Students
-                .FirstOrDefaultAsync(m => m.Id == studentId);
+                .FirstOrDefaultAsync(m => m.BaseUserId == studentId);
         }
     }
 }

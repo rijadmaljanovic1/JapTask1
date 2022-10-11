@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JAP_Management.Backoffice", "JAP_Management.Backoffice\JAP_Management.Backoffice.csproj", "{0D819DB1-FAFA-456A-B864-DD1EE8FE3D38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JAP_Management.Backoffice", "JAP_Management.Backoffice\JAP_Management.Backoffice.csproj", "{0D819DB1-FAFA-456A-B864-DD1EE8FE3D38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JAP_Management.Core", "JAP_Mangement.Core\JAP_Management.Core.csproj", "{F36306D1-8BE8-43C5-886A-99669DCFDD53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JAP_Management.Core", "JAP_Mangement.Core\JAP_Management.Core.csproj", "{F36306D1-8BE8-43C5-886A-99669DCFDD53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JAP_Management.Infrastructure", "JAP_Management.Infrastructure\JAP_Management.Infrastructure.csproj", "{2268CD28-24AD-4A77-AB18-3DB0CCA447B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JAP_Management.Infrastructure", "JAP_Management.Infrastructure\JAP_Management.Infrastructure.csproj", "{2268CD28-24AD-4A77-AB18-3DB0CCA447B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JAP_Management.Repositories", "JAP_Management.Repositories\JAP_Management.Repositories.csproj", "{91F8FDC9-F6C4-4516-AFE1-2AEDF826A5D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JAP_Management.Repositories", "JAP_Management.Repositories\JAP_Management.Repositories.csproj", "{91F8FDC9-F6C4-4516-AFE1-2AEDF826A5D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JAP_Management.Services", "JAP_Management.Services\JAP_Management.Services.csproj", "{CB75451C-7592-400A-8EC2-3D1049EBB1B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JAP_Management.Services", "JAP_Management.Services\JAP_Management.Services.csproj", "{CB75451C-7592-400A-8EC2-3D1049EBB1B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

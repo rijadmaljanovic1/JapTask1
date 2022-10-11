@@ -67,7 +67,7 @@ namespace JAP_Management.Services.Services.Program
         #endregion
 
         #region GetProgramById
-        public async Task<JAP_Management.Core.Entities.Program> GetProgramById(int programId, int userId)
+        public async Task<JAP_Management.Core.Entities.Program> GetProgramById(int programId, string userId)
         {
             try
             {
@@ -115,24 +115,24 @@ namespace JAP_Management.Services.Services.Program
 
         #endregion
 
-        #region DeleteProgram
-        public async Task<ProgramModel> DeleteProgramAsync(int id)
-        {
-            try
-            {
-                var deletedProgram = await _programRepository.Delete(id);
+        //#region DeleteProgram
+        //public async Task<ProgramModel> DeleteProgramAsync(int id)
+        //{
+        //    try
+        //    {
+        //        var deletedProgram = await _programRepository.Delete(id);
 
-                var mappedProgramModel = _mapper.Map<ProgramModel>(deletedProgram);
+        //        var mappedProgramModel = _mapper.Map<ProgramModel>(deletedProgram);
 
-                return mappedProgramModel;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error -> ", ex);
-                return null;
-            }
-        }
+        //        return mappedProgramModel;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("Error -> ", ex);
+        //        return null;
+        //    }
+        //}
 
-        #endregion
+        //#endregion
     }
 }

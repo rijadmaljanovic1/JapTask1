@@ -10,6 +10,8 @@ namespace JAP_Management.Repositories.Repositories.Base
     {
         Task<T> Add(T entity);
         Task<T> Update(T entity);
-        Task<T> Delete(int id);
+        Task<T> Delete(string id);
+        Task<T> DeleteSelection(int id);
+
     }
 }

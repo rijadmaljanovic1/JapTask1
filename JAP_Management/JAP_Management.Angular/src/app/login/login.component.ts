@@ -15,7 +15,7 @@ import { LoginHelperService } from '../core/services/shared-services/login-helpe
 })
 export class LoginComponent extends BaseComponent implements OnInit {
 
-loginModel:LoginModel={username:'User1',password:'User1'};
+loginModel:LoginModel={username:'admin1',password:'admin1'};
 incorrectDataErrorMsg="";
 
   constructor(injector:Injector, 
@@ -39,6 +39,7 @@ incorrectDataErrorMsg="";
                       (token)=>{
                         this.loginHelperService.login(token);
                         this.toastr.success(AppConstants.logged_in_success + `${this.loginModel.username}`);
+                        this.loginHelperService.updateMenu.next();
                         this.router.navigate(["/movie"]);
                       },
                       (error)=>{

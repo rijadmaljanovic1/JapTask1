@@ -151,7 +151,7 @@ namespace JAP_Management.Services.Services.Selection
         {
             try
             {
-                var deletedSelection = await _selectionRepository.Delete(id);
+                var deletedSelection = await _selectionRepository.DeleteSelection(id);
 
                 var mappedSelectionModel = _mapper.Map<SelectionModel>(deletedSelection);
 

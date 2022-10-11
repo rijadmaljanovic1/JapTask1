@@ -17,15 +17,25 @@ namespace JAP_Management.Core.Helpers
         public static string Audience { get; set; } = "Mistral";
 
 
-        public static string GetToken(BaseUser user, int expirationTime)
+        public static string GetToken(BaseUser user, int expirationTime, IList<string> roles)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
             var loginCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(UserIdClaimType, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+
+            claims.AddRange(roles.Select(role => new Claim(ClaimsIdentity.DefaultRoleClaimType, role)));
 
             var tokenOptions = new JwtSecurityToken(
                 issuer: Issuer,
                 audience: Audience,
-                claims: new List<Claim> { new Claim(UserIdClaimType, user.Id.ToString()) },
+                claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(expirationTime),
                 signingCredentials: loginCredentials
             );
@@ -35,10 +45,20 @@ namespace JAP_Management.Core.Helpers
             return tokenString;
         }
 
-        public static int GetUserIdFromToken(ClaimsPrincipal user)
+        public static string GetUserIdFromToken(ClaimsPrincipal user)
         {
-            var id = user.Claims.FirstOrDefault(c => c.Type == UserIdClaimType)?.Value ?? "0";
-            return Int32.Parse(id);
+            try
+            {
+                var claimsIdentity = user.Identity as ClaimsIdentity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
+                return userId;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }

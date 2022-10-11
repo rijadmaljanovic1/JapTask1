@@ -26,7 +26,7 @@ namespace JAP_Management.Repositories.Repositories.Selection
                     .Include(m => m.Status)
                     .Include(m => m.Program)
                     .Include(z => z.Students)
-                    .ThenInclude(m => m.Mentor)
+                    .ThenInclude(m => m.BaseUser)
                     .ToListAsync();
 
                 return list
@@ -107,7 +107,7 @@ namespace JAP_Management.Repositories.Repositories.Selection
                  .Include(m => m.Program)
                 .Include(m => m.Status)
                 .Include(z => z.Students)
-                .ThenInclude(m => m.Mentor)
+                .ThenInclude(m => m.BaseUser)
                 .FirstOrDefaultAsync(m => m.Id == selectionId);
 
             return selection;

@@ -1,8 +1,8 @@
 //localhost
-//let _webAPIBaseURL = 'https://localhost:7289';
+let _webAPIBaseURL = 'https://localhost:7289';
 
 //docker
-let _webAPIBaseURL = 'http://localhost:5001';
+//let _webAPIBaseURL = 'http://localhost:5001';
 
 let studentURL = `${_webAPIBaseURL}/api/Student/`;
 let programURL = `${_webAPIBaseURL}/api/Program`;

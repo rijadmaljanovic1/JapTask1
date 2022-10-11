@@ -5,16 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace JAP_Management.Infrastructure.Database
 {
-    public class DatabaseContext :DbContext
+    public class DatabaseContext : IdentityDbContext<BaseUser>
     {
         public DatabaseContext(DbContextOptions options) : base(options)
         {
         }
 
         public DbSet<BaseUser> Users { get; set; }
+        public DbSet<Admin> Admins{ get; set; }
         public DbSet<Comments> Comments { get; set; }
         public DbSet<StudentStatus> StudentStatus { get; set; }
         public DbSet<Student> Students { get; set; }

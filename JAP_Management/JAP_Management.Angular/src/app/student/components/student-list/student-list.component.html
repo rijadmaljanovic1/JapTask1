@@ -29,9 +29,9 @@
   <div style="text-align: center;" *ngIf="!searchResult"><h1>No results</h1></div>
   <mat-table *ngIf="searchResult"  #table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="id"  class="mat-cell" >
     
-    <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef mat-sort-header="id">Id</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+    <ng-container matColumnDef="baseUserId" hidden>
+      <mat-header-cell *matHeaderCellDef mat-sort-header="baseUserId" hidden>Id</mat-header-cell>
+      <mat-cell *matCellDef="let row" hidden> {{row.baseUserId}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="fullName">
@@ -64,14 +64,14 @@
       </mat-header-cell>
 
       <mat-cell *matCellDef="let row; let i=index;">
-        <button mat-icon-button color="navy" (click)="details(row.id)">
+        <button mat-icon-button color="navy" (click)="details(row.baseUserId)">
           <mat-icon aria-label="Details">assignment</mat-icon>
         </button>
-        <button mat-icon-button color="accent" (click)="startEdit(row.id)">
+        <button mat-icon-button color="accent" (click)="startEdit(row.baseUserId)">
           <mat-icon aria-label="Edit">edit</mat-icon>
         </button>
 
-        <button mat-icon-button color="" (click)="deleteItem(row.id)">
+        <button mat-icon-button color="" (click)="deleteItem(row.baseUserId)">
           <mat-icon aria-label="Delete">delete</mat-icon>
         </button>
       </mat-cell>

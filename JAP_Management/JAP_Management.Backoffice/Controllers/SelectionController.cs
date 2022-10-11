@@ -8,7 +8,7 @@ using System.ComponentModel.Design;
 
 namespace JAP_Management.Backoffice.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [EnableCors("CorsApi")]
     [Route("api/[controller]")]
     [ApiController]

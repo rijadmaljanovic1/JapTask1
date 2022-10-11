@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +9,9 @@ namespace JAP_Management.Core.Entities
 {
     public class Student : BaseEntity
     {
-        public int Id { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        [Key]
+        public string BaseUserId { get; set; }
+        public BaseUser BaseUser { get; set; }
         public int MentorId{ get; set; }
         public virtual Mentor? Mentor { get; set; }
         public int SelectionId { get; set; }

@@ -20,6 +20,11 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using JAP_Management.Repositories.Repositories.Selection;
 using JAP_Management.Services.Services.Selection;
+using JAP_Management.Core.Entities;
+using JAP_Management.Core.Helpers;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using JAP_Management.Services.Services.EmailSender;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,7 +82,17 @@ builder.Services.AddSwaggerGen(c =>
      });
 
 });
-
+//identity
+builder.Services.AddIdentity<BaseUser, IdentityRole>(x =>
+{
+    x.Password.RequireDigit = false;
+    x.Password.RequireUppercase = false;
+    x.Password.RequireLowercase = false;
+    x.Password.RequireNonAlphanumeric = false;
+    x.User.RequireUniqueEmail = false;
+})
+.AddEntityFrameworkStores<DatabaseContext>()
+.AddDefaultTokenProviders();
 
 //Jwt config
 builder.Services.AddAuthentication(x =>
@@ -136,7 +151,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IProgramService, ProgramService>();
 builder.Services.AddScoped<ISelectionServicee, SelectionService>();
-
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 
 var app = builder.Build();
@@ -166,12 +181,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+//var scope = app.Services.CreateScope();
 
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-    DatabaseInitializer.Init(context);
-    DatabaseInitializer.Initialize(context);
-}
+//var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+//var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+//var userManager = scope.ServiceProvider.GetRequiredService<UserManager<BaseUser>>();
+//DatabaseInitializer.Init(context);
+//DatabaseInitializer.Initialize(context, roleManager, userManager);
+
 
 app.Run();

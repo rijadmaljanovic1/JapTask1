@@ -21,6 +21,14 @@
     </div>
 
     <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #inputstate class="form-control" placeholder="Email" [(ngModel)]="data.email" name="email" maxlength="30" required >
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        <mat-hint >{{inputstate.value?.length || 0}}/30</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
 
       <mat-form-field appearance="legacy" >
         <mat-label>Mentor</mat-label>

@@ -8,24 +8,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 
 namespace JAP_Management.Backoffice.Controllers
 {
-    [Authorize]
     [EnableCors("CorsApi")]
     [Route("api/[controller]")]
     [ApiController]
     public class StudentController : Controller
     {
         private readonly IStudentService _studentService;
-
         public StudentController(IStudentService studentService)
         {
             _studentService = studentService;
         }
 
         #region GetStudents
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<List<StudentModel>>> GetStudents([FromBody] StudentSearchRequestModel studentRequestModel)
         {
@@ -46,7 +46,7 @@ namespace JAP_Management.Backoffice.Controllers
         #endregion
 
         #region AddStudent
-
+        [Authorize(Roles = "Admin")]
         [HttpPost("add")]
         public async Task<ActionResult<StudentUpsertRequest>> AddStudent([FromBody] StudentUpsertRequest studentModel)
         {
@@ -71,8 +71,9 @@ namespace JAP_Management.Backoffice.Controllers
         #endregion
 
         #region CommentStudent
-        [HttpPost("comment/{id:int}")]
-        public async Task<ActionResult<StudentModel>> CommentStudentAsync([FromRoute] int id, [FromBody] StudentModel model)
+        [Authorize(Roles = "Admin")]
+        [HttpPost("comment/{id}")]
+        public async Task<ActionResult<StudentModel>> CommentStudentAsync([FromRoute] string id, [FromBody] StudentModel model)
         {
             try
             {
@@ -95,9 +96,9 @@ namespace JAP_Management.Backoffice.Controllers
         #endregion
 
         #region GetStudentById
-
-        [HttpGet("{studentId:int}")]
-        public async Task<ActionResult<StudentModel>> GetStudentById([FromRoute] int studentId)
+        [Authorize(Roles = "Admin,Student")]
+        [HttpGet("{studentId}")]
+        public async Task<ActionResult<StudentModel>> GetStudentById([FromRoute] string studentId)
         {
             try
             {
@@ -121,9 +122,9 @@ namespace JAP_Management.Backoffice.Controllers
         #endregion
 
         #region GetStudentByUpsertId
-
-        [HttpGet("get/{id:int}")]
-        public async Task<ActionResult<StudentUpsertRequest>> GetStudentByUpsertId([FromRoute] int id)
+        [Authorize(Roles = "Admin")]
+        [HttpGet("get/{id}")]
+        public async Task<ActionResult<StudentUpsertRequest>> GetStudentByUpsertId([FromRoute] string id)
         {
             try
             {
@@ -147,9 +148,9 @@ namespace JAP_Management.Backoffice.Controllers
         #endregion
 
         #region UpdateStudent
-
-        [HttpPut("update/{id:int}")]
-        public async Task<ActionResult<StudentUpsertRequest>> UpdateStudent([FromRoute] int id, [FromBody] StudentUpsertRequest studentModel)
+        [Authorize(Roles = "Admin")]
+        [HttpPut("update/{id}")]
+        public async Task<ActionResult<StudentUpsertRequest>> UpdateStudent([FromRoute] string id, [FromBody] StudentUpsertRequest studentModel)
         {
             try
             {
@@ -169,9 +170,9 @@ namespace JAP_Management.Backoffice.Controllers
         #endregion
 
         #region DeleteStudent
-
-        [HttpDelete("delete/{id:int}")]
-        public async Task<ActionResult<StudentModel>> DeleteStudent([FromRoute] int id)
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult<StudentModel>> DeleteStudent([FromRoute] string id)
         {
             try
             {
