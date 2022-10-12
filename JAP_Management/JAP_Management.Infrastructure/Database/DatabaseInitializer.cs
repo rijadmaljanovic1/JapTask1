@@ -377,15 +377,15 @@ namespace JAP_Management.Infrastructure.Database
 
             var selectionList = new List<Selection>();
 
-            for (int i = 1; i <= 7; i++)
+            for (int i = 1; i <= 5; i++)
             {
                 if (i == 1)
                 {
                     selectionList.Add(new Selection
                     {
-                        SelectionName = "JAP_DEV/2020",
+                        SelectionName = "JAP_DEV/2022",
                         StatusId = 1,
-                        Year = "2020",
+                        Year = "2022",
                         ProgramId = 1
                     });
                 }
@@ -393,9 +393,9 @@ namespace JAP_Management.Infrastructure.Database
                 {
                     selectionList.Add(new Selection
                     {
-                        SelectionName = "JAP_QA/2021",
+                        SelectionName = "JAP_QA/2022",
                         StatusId = 1,
-                        Year = "2021",
+                        Year = "2022",
                         ProgramId = 2
                     });
                 }
@@ -403,9 +403,9 @@ namespace JAP_Management.Infrastructure.Database
                 {
                     selectionList.Add(new Selection
                     {
-                        SelectionName = "JAP_DEV/2022",
+                        SelectionName = "JAP_DEV/2020",
                         StatusId = 1,
-                        Year = "2022",
+                        Year = "2020",
                         ProgramId = 1
                     });
                 }
@@ -429,26 +429,7 @@ namespace JAP_Management.Infrastructure.Database
                         ProgramId = 3
                     });
                 }
-                else if (i == 6)
-                {
-                    selectionList.Add(new Selection
-                    {
-                        SelectionName = "JAP_DEVOPS/2018",
-                        StatusId = 1,
-                        Year = "2020",
-                        ProgramId = 3
-                    });
-                }
-                else if (i == 7)
-                {
-                    selectionList.Add(new Selection
-                    {
-                        SelectionName = "JAP_TA/2017",
-                        StatusId = 1,
-                        Year = "2020",
-                        ProgramId = 3
-                    });
-                }
+                
             }
             context.Selections.AddRange(selectionList);
             context.SaveChanges();
@@ -501,14 +482,94 @@ namespace JAP_Management.Infrastructure.Database
 
             for (int i = 0; i < userList.Count; i++)
             {
-                studentList.Add(new Student
+                if (i==1)
                 {
-                    BaseUserId = userList[i].Id,
-                    MentorId = 1,
-                    SelectionId = 1,
-                    ProgramId = 1,
-                    StudentStatusId = 1,
-                });
+                    studentList.Add(new Student
+                    {
+                        BaseUserId = userList[i].Id,
+                        MentorId = 1,
+                        SelectionId = 1,
+                        ProgramId = 1,
+                        StudentStatusId = 2,
+                    });
+                }
+                else if (i==2)
+                {
+                    studentList.Add(new Student
+                    {
+                        BaseUserId = userList[i].Id,
+                        MentorId = 1,
+                        SelectionId = 1,
+                        ProgramId = 1,
+                        StudentStatusId = 2,
+                    });
+                }
+                else if (i == 3)
+                {
+                    studentList.Add(new Student
+                    {
+                        BaseUserId = userList[i].Id,
+                        MentorId = 1,
+                        SelectionId = 1,
+                        ProgramId = 1,
+                        StudentStatusId = 2,
+                    });
+                }
+                else if (i == 4)
+                {
+                    studentList.Add(new Student
+                    {
+                        BaseUserId = userList[i].Id,
+                        MentorId = 1,
+                        SelectionId = 1,
+                        ProgramId = 1,
+                        StudentStatusId = 2,
+                    });
+                }
+                else if (i == 5)
+                {
+                    studentList.Add(new Student
+                    {
+                        BaseUserId = userList[i].Id,
+                        MentorId = 1,
+                        SelectionId = 1,
+                        ProgramId = 1,
+                        StudentStatusId = 1,
+                    });
+                }
+                else if (i == 6)
+                {
+                    studentList.Add(new Student
+                    {
+                        BaseUserId = userList[i].Id,
+                        MentorId = 1,
+                        SelectionId = 1,
+                        ProgramId = 1,
+                        StudentStatusId = 1,
+                    });
+                }
+                else if (i == 7)
+                {
+                    studentList.Add(new Student
+                    {
+                        BaseUserId = userList[i].Id,
+                        MentorId = 1,
+                        SelectionId = 2,
+                        ProgramId = 1,
+                        StudentStatusId = 2,
+                    });
+                }
+                else if (i == 8)
+                {
+                    studentList.Add(new Student
+                    {
+                        BaseUserId = userList[i].Id,
+                        MentorId = 1,
+                        SelectionId = 2,
+                        ProgramId = 1,
+                        StudentStatusId = 1,
+                    });
+                }
 
             }
             context.Students.AddRange(studentList);

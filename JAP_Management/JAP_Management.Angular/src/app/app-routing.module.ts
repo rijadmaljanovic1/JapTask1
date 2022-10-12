@@ -23,6 +23,11 @@ const routes: Routes = [
     canActivate:[AdminGuard]
   },
   {
+    path: 'ranks',
+    loadChildren: () => import('./ranks/ranks.module').then(mod => mod.RanksModule),
+    canActivate:[AdminGuard]
+  },
+  {
     path:'login',
     component:LoginComponent,
     canActivate:[LoginRouteGuardService]

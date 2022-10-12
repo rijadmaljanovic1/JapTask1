@@ -1,3 +1,5 @@
+import { DecimalPipe } from "@angular/common";
+
 export class StudentModel{
     baseUserId:string="";
     fullName:string="";
@@ -72,4 +74,11 @@ export class SelectionRequestModel{
     filter:number=0;
     sorting:number=0;
     search:SearchModel=new SearchModel();
+}
+
+export class RankModel{
+    selectionName:string="";
+    programName:string="";
+    studentSuccessRate:DecimalPipe;
+    overallSuccess:number=0;
 }

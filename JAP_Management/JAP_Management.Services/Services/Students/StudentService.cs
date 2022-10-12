@@ -32,6 +32,7 @@ namespace JAP_Management.Services.Services.Students
         {
             try
             {
+            
                 var studentList = await _studentRepository.GetStudentsAsync(studentRequestModel);
 
                 if (!studentList.Any())

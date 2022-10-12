@@ -1,0 +1,46 @@
+<mat-toolbar style="background-color: #1d1e2c; color: white;">
+    <span >Selections rank overview</span>
+    <span class="spacer"></span>
+    
+    <button style="color: white;" mat-icon-button (click)="refresh()" >
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </mat-toolbar>
+  
+  <div class="container mat-elevation-z8">
+  
+    <div style="text-align: center;" *ngIf="!searchResult"><h1>No results</h1></div>
+    <mat-table *ngIf="searchResult"  #table [dataSource]="dataSource" matSort  matSortActive="selectionName"  class="mat-cell" >
+      
+      <ng-container matColumnDef="selectionName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="selectionName">Selection name</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.selectionName}} </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="programName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="programName">Program name</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.programName}} </mat-cell>
+      </ng-container>
+  
+  
+      <ng-container matColumnDef="studentSuccessRate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="studentSuccessRate">Student success rate</mat-header-cell>
+        <mat-cell *matCellDef="let row" > {{row.studentSuccessRate}}%</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="overallSuccess">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="overallSuccess">Overall success</mat-header-cell>
+        <mat-cell *matCellDef="let row" > {{row.overallSuccess}}</mat-cell>
+      </ng-container>
+     
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  
+  <div style="text-align: right; margin: 1%;">
+    <span  class="card-text" style="font-size:15px;margin-right: 2%;"><small class="text-muted">All results</small></span>
+  </div>
+  
+  </div>
+  

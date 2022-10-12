@@ -12,6 +12,7 @@ let studentURL = `${_webAPIBaseURL}/api/Student`;
 let programURL = `${_webAPIBaseURL}/api/Program`;
 let selectionURL = `${_webAPIBaseURL}/api/Selection`;
 let authURL = `${_webAPIBaseURL}/api/Auth`;
+let ranksURL = `${_webAPIBaseURL}/api/Rank`;
 
 export const environment = {
   production: false,
@@ -27,6 +28,9 @@ export const environment = {
 
   // selection URLs
   selectionsURL: `${selectionURL}`,
+
+ //rank
+ rankURL: `${ranksURL}`,
 
   // AUTH URLs
   loginURL: `${authURL}/login`,

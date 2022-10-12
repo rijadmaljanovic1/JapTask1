@@ -28,6 +28,8 @@ namespace JAP_Management.Infrastructure.AutoMapper
 
             CreateMap<Selection, SelectionUpsertRequest>().ReverseMap();
 
+            CreateMap<Rank, RankModel>().ReverseMap();
+
             CreateMap<Selection, SelectionModel>()
                 .ForMember(d => d.ProgramName, s => s.MapFrom(m => m.Program.Name))
                 .ForMember(d => d.Students,

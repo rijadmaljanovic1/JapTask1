@@ -25,6 +25,8 @@ using JAP_Management.Core.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using JAP_Management.Services.Services.EmailSender;
+using JAP_Management.Repositories.Repositories.Ranks;
+using JAP_Management.Services.Services.Ranks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -144,6 +146,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IProgramRepository, ProgramRepository>();
 builder.Services.AddScoped<ISelectionRepository, SelectionRepository>();
+builder.Services.AddScoped<IRankRepository, RankRepository>();
 
 
 //services
@@ -152,6 +155,7 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IProgramService, ProgramService>();
 builder.Services.AddScoped<ISelectionServicee, SelectionService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IRankService,RankService>();
 
 
 var app = builder.Build();
@@ -181,13 +185,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-//var scope = app.Services.CreateScope();
 
+//var scope = app.Services.CreateScope();
 //var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
 //var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 //var userManager = scope.ServiceProvider.GetRequiredService<UserManager<BaseUser>>();
 //DatabaseInitializer.Init(context);
 //DatabaseInitializer.Initialize(context, roleManager, userManager);
-
 
 app.Run();

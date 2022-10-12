@@ -25,6 +25,7 @@ namespace JAP_Management.Infrastructure.Database
         public DbSet<Selection> Selections { get; set; }
         public DbSet<SelectionStatus> SelectionStatus { get; set; }
         public DbSet<Technologies> Technologies { get; set; }
+        public DbSet<Rank> Ranks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

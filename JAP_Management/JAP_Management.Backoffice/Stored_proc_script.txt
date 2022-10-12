@@ -1,15 +1,15 @@
-﻿CREATE PROCEDURE SelectionsSuccess
+﻿CREATE PROCEDURE spSelectionsSuccess
 AS
 SELECT s.SelectionName,p.Name as ProgramName, 
 	cast(((CASE
-    WHEN (select count(stud.Id) from Students as stud where stud.SelectionId=s.Id) = 0 THEN 0
-    WHEN (select count(stud.Id) from Students as stud where stud.SelectionId=s.Id) != 0 THEN 
-		((select count(st.Id) from Students as st where st.StudentStatusId=(select ss.Id from StudentStatus ss where ss.Name='Success') 
+    WHEN (select count(stud.BaseUserId) from Students as stud where stud.SelectionId=s.Id) = 0 THEN 0
+    WHEN (select count(stud.BaseUserId) from Students as stud where stud.SelectionId=s.Id) != 0 THEN 
+		((select count(st.BaseUserId) from Students as st where st.StudentStatusId=(select ss.Id from StudentStatus ss where ss.Name='Success') 
 			and st.SelectionId=s.Id) * 1.0/
-				(select count(stud.Id) from Students as stud where stud.SelectionId=s.Id))
+				(select count(stud.BaseUserId) from Students as stud where stud.SelectionId=s.Id))
    
 END)*100) as numeric(38,1))
-	 as StudentSucessRate,
-	 (select count(st.Id) from Students as st where st.StudentStatusId=(select ss.Id from StudentStatus ss where ss.Name='Success') 
-			and st.SelectionId=s.Id) as OverallSucess
+	 as StudentSuccessRate,
+	 (select count(st.BaseUserId) from Students as st where st.StudentStatusId=(select ss.Id from StudentStatus ss where ss.Name='Success') 
+			and st.SelectionId=s.Id) as OverallSuccess
 			FROM Selections as s join Programs as p on s.ProgramId = p.Id

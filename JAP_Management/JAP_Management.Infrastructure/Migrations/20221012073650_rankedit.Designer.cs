@@ -4,6 +4,7 @@ using JAP_Management.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JAP_Management.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20221012073650_rankedit")]
+    partial class rankedit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,8 +203,8 @@ namespace JAP_Management.Infrastructure.Migrations
 
             modelBuilder.Entity("JAP_Management.Core.Entities.Rank", b =>
                 {
-                    b.Property<int>("OverallSuccess")
-                        .HasColumnType("int");
+                    b.Property<decimal>("OverallSuccess")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ProgramName")
                         .IsRequired()
