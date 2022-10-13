@@ -66,7 +66,6 @@ namespace JAP_Management.Services.Services.Students
 
                 var mappedAddedStudent = _mapper.Map<Student>(model);
 
-                mappedAddedStudent.ModifiedAt = null;
                 mappedAddedStudent.BaseUserId = addedUser.Id;
 
                 var addedStudent = await _studentRepository.AddStudentAsync(mappedAddedStudent);

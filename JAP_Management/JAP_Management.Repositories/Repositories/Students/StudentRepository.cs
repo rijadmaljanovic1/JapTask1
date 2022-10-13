@@ -25,22 +25,23 @@ namespace JAP_Management.Repositories.Repositories.Students
             try
             {
                 var itemsPerPage = 5;
+
                 var list = await _databaseContext.Students
                     .Include(z => z.Comments)
                     .Include(m => m.Selection)
                     .Include(m => m.StudentStatus)
                     .Include(m => m.Mentor)
-                    .Include(m=>m.BaseUser)
+                    .Include(m => m.BaseUser)
                     .Include(m => m.Program)
                     .ThenInclude(m => m.Technologies)
                     .ToListAsync();
 
                 return list
-                .Where(m => Search(m, studentRequestModel.Search, studentRequestModel.Filter))
-                .OrderBy(m => Sort(m, studentRequestModel.Sorting))
-                .Skip(itemsPerPage * (studentRequestModel.Page - 1))
-                .Take(5)
-                .ToList();
+                    .Where(m => Search(m, studentRequestModel.Search, studentRequestModel.Filter))
+                    .OrderBy(m => Sort(m, studentRequestModel.Sorting))
+                    .Skip(itemsPerPage * (studentRequestModel.Page - 1))
+                    .Take(5)
+                    .ToList();
             }
             catch (Exception ex)
             {
@@ -49,10 +50,10 @@ namespace JAP_Management.Repositories.Repositories.Students
             }
         }
 
-      
+
         public async Task<Student> AddStudentAsync(Student mappedStudent)
         {
-            var newStudent= new Student()
+            var newStudent = new Student()
             {
                 BaseUserId = mappedStudent.BaseUserId,
                 MentorId = mappedStudent.MentorId,
@@ -68,7 +69,7 @@ namespace JAP_Management.Repositories.Repositories.Students
 
         private bool Search(Student student, SearchModel searchModel, int filter = 0)
         {
-            if (searchModel.Value=="")
+            if (searchModel.Value == "")
             {
                 return true;
             }
@@ -129,17 +130,15 @@ namespace JAP_Management.Repositories.Repositories.Students
 
         public async Task<Student> GetStudentById(string studentId)
         {
-            var student = await _databaseContext.Students
+            return await _databaseContext.Students
                 .Include(z => z.Comments)
                 .Include(m => m.Selection)
                 .Include(m => m.StudentStatus)
-                .Include(m=>m.BaseUser)
+                .Include(m => m.BaseUser)
                 .Include(m => m.Mentor)
                 .Include(m => m.Program)
                 .ThenInclude(m => m.Technologies)
                 .FirstOrDefaultAsync(m => m.BaseUserId == studentId);
-
-            return student;
         }
 
         public async Task<Student> CommentStudentAsync(string studentId, string userId, string comment)

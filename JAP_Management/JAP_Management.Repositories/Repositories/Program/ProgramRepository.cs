@@ -51,11 +51,9 @@ namespace JAP_Management.Repositories.Repositories.Program
 
         public async Task<JAP_Management.Core.Entities.Program> GetProgramById(int programId)
         {
-            var program = await _databaseContext.Programs
+            return await _databaseContext.Programs
                 .Include(m => m.Technologies)
                 .FirstOrDefaultAsync(m => m.Id == programId);
-
-            return program;
         }
     }
 }

@@ -54,7 +54,7 @@ namespace JAP_Management.Backoffice.Controllers
             {
                 //var userId = JwtHelper.GetUserIdFromToken(HttpContext.User);
 
-                var addedStudent= await _studentService.AddStudentAsync(studentModel);
+                var addedStudent = await _studentService.AddStudentAsync(studentModel);
 
                 if (addedStudent == null)
                     return BadRequest("Student is not added!");
