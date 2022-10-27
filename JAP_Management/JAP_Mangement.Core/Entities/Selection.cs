@@ -13,8 +13,10 @@ namespace JAP_Management.Core.Entities
         public int StatusId { get; set; }
         public virtual SelectionStatus? Status { get; set; }
         public string? Year { get; set; }
+        public DateTime StartDate { get; set; } = DateTime.Now;
         public int ProgramId { get; set; }
         public virtual Program? Program { get; set; }
         public virtual ICollection<Student>? Students { get; set; }
+        public virtual ICollection<SelectionItem> SelectionItems { get; set; }
     }
 }

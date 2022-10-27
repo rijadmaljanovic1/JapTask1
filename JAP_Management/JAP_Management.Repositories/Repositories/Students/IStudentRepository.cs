@@ -12,7 +12,7 @@ namespace JAP_Management.Repositories.Repositories.Students
     public interface IStudentRepository : IBaseRepository<Student>
     {
         Task<List<Student>> GetStudentsAsync(StudentSearchRequestModel studentSearchRequestModel);
-        Task<Student> GetStudentById(string studentId);
+        Task<StudentModel> GetStudentById(string studentId, string userId);
         Task<Student> CommentStudentAsync(string studentId, string userId, string comment);
         Task<Student> AddStudentAsync(Student mappedStudent);
 

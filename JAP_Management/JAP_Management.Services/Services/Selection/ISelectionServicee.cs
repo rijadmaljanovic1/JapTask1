@@ -15,5 +15,7 @@ namespace JAP_Management.Services.Services.Selection
         Task<SelectionUpsertRequest> GetSelectionByUpsertId(int selectionId);
         Task<SelectionUpsertRequest> UpdateSelectionAsync(int selectionId, SelectionUpsertRequest model);
         Task<SelectionModel> DeleteSelectionAsync(int id);
+        Task<SelectionModel> GetSelectionByProgramId(int programId);
+
     }
 }

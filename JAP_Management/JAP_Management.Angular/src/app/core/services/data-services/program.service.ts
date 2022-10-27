@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { BaseService } from '../../common/base.service';
-import { SearchModel, ProgramModel, ProgramRequestModel } from '../../models/data-models';
+import { SearchModel, ProgramModel, ProgramRequestModel, ProgramItemModel } from '../../models/data-models';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { AppConstants } from '../../common/app-constants';
 
@@ -27,4 +27,18 @@ export class ProgramService extends BaseService{
     let url=`${environment.programsURL}/${id}`;
     return this.get(url);
   }
+
+  getItemsByProgramId(programId:number):Observable<any>{
+    let url=`${environment.programsURL}/getItems/${programId}`;
+    return this.get(url);
+  }
+  
+  addProgramItem(model: ProgramItemModel): void {
+    let url=`${environment.programsURL}/addItem`;
+    this.httpClient.post(url, model, { headers: this._headers }).subscribe(data => {
+      this.dialogData = model;
+      },
+      (err: HttpErrorResponse) => {
+    });
+   }
 }

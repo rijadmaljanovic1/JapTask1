@@ -31,9 +31,8 @@ export class NavbarComponent extends BaseComponent implements OnInit {
     this.loginHelperService.isUserLogged$
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe((res)=> this.isUserLogged$=res);
-    this.loginHelperService.updateMenu.subscribe(res=>{
+   
       this.getRole();
-    });
    
   }
   
@@ -43,6 +42,9 @@ export class NavbarComponent extends BaseComponent implements OnInit {
       this.displayAdmin=this.currentRole=='Admin';
       this.displayStudent=this.currentRole=='Student' || this.currentRole=='Admin';
     }
+    this.loginHelperService.updateMenu.subscribe(()=>{
+      this.getRole();
+    });
     
   }
  

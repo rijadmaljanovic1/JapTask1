@@ -1,0 +1,31 @@
+<div class="container">
+  <h3 mat-dialog-title>Add Lectures/Events to program</h3>
+
+  <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
+    <!--Textarea for demo purposes-->
+
+    <div class="form">
+       <mat-form-field appearance="legacy" >
+        <mat-label>Chose program</mat-label>
+        <mat-select (selectionChange)="changeProgram($event.value)">
+          <mat-option *ngFor="let select of programSelection" [value]="select.value" >
+            {{select.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+    <mat-form-field>
+      <mat-select placeholder="Lectures/Events" [(value)]="selectedItems" multiple>
+        <mat-option *ngFor="let item of itemModel" [value]="item">{{item.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+    <div mat-dialog-actions>
+      <button mat-button  [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
+      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    </div>
+  </form>
+</div>

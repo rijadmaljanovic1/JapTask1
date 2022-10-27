@@ -94,6 +94,32 @@ namespace JAP_Management.Services.Services.Selection
 
         #endregion
 
+        #region GetSelectionByProgramId
+        public async Task<SelectionModel> GetSelectionByProgramId(int programId)
+        {
+            try
+            {
+                var selection = await _selectionRepository.GetSelectionByProgramId(programId);
+
+                if (selection == null)
+                {
+                    return null;
+                }
+
+                var mappedSelection = _mapper.Map<SelectionModel>(selection);
+
+
+                return mappedSelection;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error -> ", ex);
+                return null;
+            }
+        }
+
+        #endregion
+
         #region GetSelectionByUpsertId
         public async Task<SelectionUpsertRequest> GetSelectionByUpsertId(int selectionId)
         {

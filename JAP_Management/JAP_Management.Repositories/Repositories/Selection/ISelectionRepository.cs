@@ -12,5 +12,7 @@ namespace JAP_Management.Repositories.Repositories.Selection
     {
         Task<List<JAP_Management.Core.Entities.Selection>> GetSelectionsAsync(SelectionSearchRequestModel selectionRequestModel);
         Task<JAP_Management.Core.Entities.Selection> GetSelectionById(int selectionId);
+        Task<JAP_Management.Core.Entities.Selection> GetSelectionByProgramId(int programId);
+
     }
 }

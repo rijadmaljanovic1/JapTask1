@@ -64,6 +64,29 @@ namespace JAP_Management.Backoffice.Controllers
 
         #endregion
 
+        #region AddProgramItem
+
+        [HttpPost("addItem")]
+        public async Task<ActionResult<ProgramItemModel>> AddProgramItem([FromBody] ProgramItemModel programItemModels)
+        {
+            try
+            {
+                var addedProgram = await _programService.AddProgramItemsAsync(programItemModels);
+
+                if (addedProgram == null)
+                    return BadRequest("Program is not added!");
+
+                return Ok(addedProgram);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error ->", ex);
+                return StatusCode(500, "Something went wrong!");
+            }
+        }
+
+        #endregion
+
         #region GetProgramById
 
         [HttpGet("{programId:int}")]
@@ -74,6 +97,31 @@ namespace JAP_Management.Backoffice.Controllers
                 var userId = JwtHelper.GetUserIdFromToken(HttpContext.User);
 
                 var program = await _programService.GetProgramById(programId, userId);
+
+                if (program == null)
+                    return NotFound();
+
+                return Ok(program);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error ->", ex);
+                return StatusCode(500, "Something went wrong!");
+            }
+        }
+
+        #endregion
+
+        #region GetItemsByProgramId
+
+        [HttpGet("getItems/{programId:int}")]
+        public async Task<ActionResult<ItemsModel>> GetItemsByProgramId([FromRoute] int programId)
+        {
+            try
+            {
+                var userId = JwtHelper.GetUserIdFromToken(HttpContext.User);
+
+                var program = await _programService.GetItemsByProgramId(programId, userId);
 
                 if (program == null)
                     return NotFound();

@@ -26,6 +26,10 @@ namespace JAP_Management.Infrastructure.Database
         public DbSet<SelectionStatus> SelectionStatus { get; set; }
         public DbSet<Technologies> Technologies { get; set; }
         public DbSet<Rank> Ranks { get; set; }
+        public DbSet<Item> Items{ get; set; }
+        public DbSet<ProgramItems> ProgramItems { get; set; }
+        public DbSet<SelectionItem> SelectionItems { get; set; }
+        public DbSet<StudentItem> StudentItems { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,9 +42,6 @@ namespace JAP_Management.Infrastructure.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-
-            
         }
     }
 }

@@ -3,6 +3,10 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using JAP_Management.Backoffice.Extensions;
 using JAP_Management.Backoffice.Middlewares;
+using JAP_Management.Infrastructure.Database;
+using Microsoft.AspNetCore.Identity;
+using JAP_Management.Core.Entities;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +34,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHangfireDashboard("/dashboard");
 
 app.UseMiddleware<ExceptionMiddleware>();
 

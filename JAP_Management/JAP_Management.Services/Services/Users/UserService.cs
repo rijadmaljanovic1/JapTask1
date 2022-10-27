@@ -34,6 +34,8 @@ namespace JAP_Management.Services.Services.Users
                     return null;
                 }
 
+                await _userManager.AddToRoleAsync(new BaseUser() { Id = addedUser.Id }, "Student");
+
                 return addedUser;
             }
             catch (Exception ex)

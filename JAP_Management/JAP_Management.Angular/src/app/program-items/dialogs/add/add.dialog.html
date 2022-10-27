@@ -1,0 +1,45 @@
+<div class="container">
+  <h3 mat-dialog-title>Add new selection</h3>
+
+  <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
+    <!--Textarea for demo purposes-->
+    <div class="form">
+      <mat-form-field color="accent">
+        <textarea matInput #input class="form-control" placeholder="Lecture/Event name" [(ngModel)]="name" name="name" maxlength="30" required ></textarea>
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        <mat-hint >{{input.value?.length || 0}}/30</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <!--Contains mat-hint for characters count and has maxLengt set-->
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #inputstate class="form-control" placeholder="Description" [(ngModel)]="description" name="description" maxlength="30" required >
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        <mat-hint >{{inputstate.value?.length || 0}}/50</mat-hint>
+      </mat-form-field>
+    </div>
+
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #inputstate class="form-control" placeholder="Url" [(ngModel)]="url" name="url" maxlength="30"  >
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        <mat-hint >{{inputstate.value?.length || 0}}/30</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #inputstate class="form-control" placeholder="Expected hours" [(ngModel)]="expectedHours" name="expectedHours" maxlength="4" required >
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        <mat-hint >{{inputstate.value?.length || 0}}/4</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button  [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
+      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    </div>
+  </form>
+</div>

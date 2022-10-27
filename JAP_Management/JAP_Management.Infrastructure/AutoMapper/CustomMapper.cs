@@ -49,6 +49,10 @@ namespace JAP_Management.Infrastructure.AutoMapper
                                 Id = ma.Id,
                                 Name = ma.Name,
                             }).ToList()));
+
+            CreateMap<Item, ItemsModel>()
+                .ForMember(d => d.OrderNumber, s => s.MapFrom(m => 0)).ReverseMap();
+
         }
     }
 }

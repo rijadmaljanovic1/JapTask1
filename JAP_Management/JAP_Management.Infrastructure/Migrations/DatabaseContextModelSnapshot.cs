@@ -153,6 +153,34 @@ namespace JAP_Management.Infrastructure.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("JAP_Management.Core.Entities.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ExpectedHours")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Items");
+                });
+
             modelBuilder.Entity("JAP_Management.Core.Entities.Mentor", b =>
                 {
                     b.Property<int>("Id")
@@ -199,6 +227,32 @@ namespace JAP_Management.Infrastructure.Migrations
                     b.ToTable("Programs");
                 });
 
+            modelBuilder.Entity("JAP_Management.Core.Entities.ProgramItems", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProgramId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("ProgramId");
+
+                    b.ToTable("ProgramItems");
+                });
+
             modelBuilder.Entity("JAP_Management.Core.Entities.Rank", b =>
                 {
                     b.Property<int>("OverallSuccess")
@@ -241,6 +295,9 @@ namespace JAP_Management.Infrastructure.Migrations
                     b.Property<string>("SelectionName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
@@ -254,6 +311,35 @@ namespace JAP_Management.Infrastructure.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("Selections");
+                });
+
+            modelBuilder.Entity("JAP_Management.Core.Entities.SelectionItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SelectionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("SelectionId");
+
+                    b.ToTable("SelectionItems");
                 });
 
             modelBuilder.Entity("JAP_Management.Core.Entities.SelectionStatus", b =>
@@ -310,6 +396,38 @@ namespace JAP_Management.Infrastructure.Migrations
                     b.HasIndex("StudentStatusId");
 
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("JAP_Management.Core.Entities.StudentItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CandidateStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PercentageDone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentItems");
                 });
 
             modelBuilder.Entity("JAP_Management.Core.Entities.StudentStatus", b =>
@@ -514,6 +632,25 @@ namespace JAP_Management.Infrastructure.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("JAP_Management.Core.Entities.ProgramItems", b =>
+                {
+                    b.HasOne("JAP_Management.Core.Entities.Item", "Item")
+                        .WithMany("ProgramItems")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JAP_Management.Core.Entities.Program", "Program")
+                        .WithMany("ProgramItems")
+                        .HasForeignKey("ProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Program");
+                });
+
             modelBuilder.Entity("JAP_Management.Core.Entities.Selection", b =>
                 {
                     b.HasOne("JAP_Management.Core.Entities.Program", "Program")
@@ -531,6 +668,21 @@ namespace JAP_Management.Infrastructure.Migrations
                     b.Navigation("Program");
 
                     b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("JAP_Management.Core.Entities.SelectionItem", b =>
+                {
+                    b.HasOne("JAP_Management.Core.Entities.Item", null)
+                        .WithMany("SelectionItems")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JAP_Management.Core.Entities.Selection", null)
+                        .WithMany("SelectionItems")
+                        .HasForeignKey("SelectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("JAP_Management.Core.Entities.Student", b =>
@@ -574,6 +726,21 @@ namespace JAP_Management.Infrastructure.Migrations
                     b.Navigation("Selection");
 
                     b.Navigation("StudentStatus");
+                });
+
+            modelBuilder.Entity("JAP_Management.Core.Entities.StudentItem", b =>
+                {
+                    b.HasOne("JAP_Management.Core.Entities.Item", null)
+                        .WithMany("StudentItems")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JAP_Management.Core.Entities.Student", null)
+                        .WithMany("StudentItems")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("JAP_Management.Core.Entities.Technologies", b =>
@@ -647,19 +814,34 @@ namespace JAP_Management.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("JAP_Management.Core.Entities.Item", b =>
+                {
+                    b.Navigation("ProgramItems");
+
+                    b.Navigation("SelectionItems");
+
+                    b.Navigation("StudentItems");
+                });
+
             modelBuilder.Entity("JAP_Management.Core.Entities.Program", b =>
                 {
+                    b.Navigation("ProgramItems");
+
                     b.Navigation("Technologies");
                 });
 
             modelBuilder.Entity("JAP_Management.Core.Entities.Selection", b =>
                 {
+                    b.Navigation("SelectionItems");
+
                     b.Navigation("Students");
                 });
 
             modelBuilder.Entity("JAP_Management.Core.Entities.Student", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("StudentItems");
                 });
 #pragma warning restore 612, 618
         }

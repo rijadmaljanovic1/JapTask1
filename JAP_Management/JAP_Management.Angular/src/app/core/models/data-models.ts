@@ -8,7 +8,20 @@ export class StudentModel{
     selectionName:string="";
     studentStatusName:string="";
     commentByUser:string="";
+    items:Array<StudentItemsModel>=new Array<StudentItemsModel>();
 }
+
+export class StudentItemsModel{
+    itemName:string="";
+    url:string="";
+    expectedHours:number=0;
+    percentageDone:string="";
+    candidateStatus:string="";
+    startDate:Date;
+    endDate:Date;
+    orderNumber:number=0;
+}
+
 export class StudentUpsertRequest{
     baseUserId:string="";
     firstName:string="";
@@ -81,4 +94,26 @@ export class RankModel{
     programName:string="";
     studentSuccessRate:DecimalPipe;
     overallSuccess:number=0;
+}
+
+export class ItemsModel{
+    id:number=0;
+    name:string="";
+    description:string="";
+    url:string="";
+    expectedHours:number=0;
+    orderNumber:number=0;
+}
+
+export class ProgramItemsRequestModel{
+    page:number=1;
+    filter:number=0;
+    sorting:number=0;
+    search:SearchModel=new SearchModel();
+}
+
+export class ProgramItemModel{
+    programId:number=0;
+    itemId:number=0;
+    itemsModel:Array<ItemsModel>=new Array<ItemsModel>();
 }

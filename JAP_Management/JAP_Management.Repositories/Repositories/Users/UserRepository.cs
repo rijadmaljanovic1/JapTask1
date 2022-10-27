@@ -37,6 +37,7 @@ namespace JAP_Management.Repositories.Repositories.Users
                 PasswordSalt = salt,
                 PasswordHash = PasswordHashSaltGenerator.HashPassword(salt, usernamePassword)
             };
+
             await _databaseContext.Users.AddAsync(newUser);
             await _databaseContext.SaveChangesAsync();
 

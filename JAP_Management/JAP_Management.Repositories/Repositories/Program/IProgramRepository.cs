@@ -13,6 +13,8 @@ namespace JAP_Management.Repositories.Repositories.Program
     {
         Task<List<JAP_Management.Core.Entities.Program>> GetProgramsAsync(ProgramSearchRequestModel programModel);
         Task<JAP_Management.Core.Entities.Program> GetProgramById(int programId);
+        Task<ProgramItemModel> AddProgramItemsAsync(ProgramItemModel programItemModels);
+        Task<List<Item>> GetItemsByProgramId(int programId);
 
     }
 }

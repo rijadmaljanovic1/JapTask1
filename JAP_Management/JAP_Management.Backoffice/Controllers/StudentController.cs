@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Hangfire;
 
 namespace JAP_Management.Backoffice.Controllers
 {
@@ -188,6 +189,16 @@ namespace JAP_Management.Backoffice.Controllers
                 return StatusCode(500, "Something went wrong!");
             }
         }
+
+        #endregion
+
+        #region Background process
+        //public IActionResult Delayed()
+        //{
+        //    RecurringJob.AddOrUpdate(() => _studentService.BackgroundMailSender(), "0 17 * **");
+        //    Console.WriteLine("Email sent");
+        //    return Ok();
+        //}
 
         #endregion
     }

@@ -40,7 +40,7 @@ incorrectDataErrorMsg="";
                         this.loginHelperService.login(token);
                         this.toastr.success(AppConstants.logged_in_success + `${this.loginModel.username}`);
                         this.loginHelperService.updateMenu.next();
-                        this.router.navigate(["/movie"]);
+                        this.router.navigate(["/student"]);
                       },
                       (error)=>{
                         this.toastr.error(AppConstants.error_user_message);

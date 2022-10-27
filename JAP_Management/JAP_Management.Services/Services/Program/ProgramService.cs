@@ -43,6 +43,27 @@ namespace JAP_Management.Services.Services.Program
 
         #endregion
 
+        #region AddProgramItem
+
+        public async Task<ProgramItemModel> AddProgramItemsAsync(ProgramItemModel programItemModels)
+        {
+            try
+            {
+                var addedProgramItem = await _programRepository.AddProgramItemsAsync(programItemModels);
+
+                if (addedProgramItem == null)
+                    return null;
+
+                return programItemModels;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error -> ", ex);
+                return null;
+            }
+        }
+        #endregion
+
         #region AddProgram
         public async Task<ProgramModel> AddProgramAsync(ProgramModel model)
         {
@@ -79,6 +100,39 @@ namespace JAP_Management.Services.Services.Program
                 }
 
                 return program;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error -> ", ex);
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region GetItemsByProgramId
+        public async Task<List<ItemsModel>> GetItemsByProgramId(int programId, string userId)
+        {
+            try
+            {
+                var items = await _programRepository.GetItemsByProgramId(programId);
+
+                if (items == null)
+                {
+                    return null;
+                }
+
+                var mappedItems = _mapper.Map<List<ItemsModel>>(items);
+
+                for (int i = 0; i < items.Count; i++)
+                {
+                    mappedItems[i].OrderNumber = items[i].ProgramItems.FirstOrDefault(mr => mr.ProgramId == programId && mr.ItemId == items[i].Id)?.OrderNumber ?? 0;
+                }
+
+                mappedItems= mappedItems.OrderBy(m => m.OrderNumber).ToList();
+
+                return mappedItems;
+
             }
             catch (Exception ex)
             {

@@ -13,6 +13,11 @@ const routes: Routes = [
     canActivate:[AdminGuard]
   },
   {
+    path: 'program-items',
+    loadChildren: () => import('./program-items/program-items.module').then(mod => mod.ProgramItemsModule),
+    canActivate:[AdminGuard]
+  },
+  {
     path: 'program',
     loadChildren: () => import('./program/program.module').then(mod => mod.ProgramModule),
     canActivate:[AdminGuard]
