@@ -5,12 +5,14 @@ using JAP_Management.Infrastructure.AutoMapper;
 using JAP_Management.Infrastructure.Database;
 using JAP_Management.Repositories.Repositories.Base;
 using JAP_Management.Repositories.Repositories.Program;
+using JAP_Management.Repositories.Repositories.ProgramItem;
 using JAP_Management.Repositories.Repositories.Ranks;
 using JAP_Management.Repositories.Repositories.Selection;
 using JAP_Management.Repositories.Repositories.Students;
 using JAP_Management.Repositories.Repositories.Users;
 using JAP_Management.Services.Services.EmailSender;
 using JAP_Management.Services.Services.Program;
+using JAP_Management.Services.Services.ProgramItem;
 using JAP_Management.Services.Services.Ranks;
 using JAP_Management.Services.Services.Selection;
 using JAP_Management.Services.Services.Students;
@@ -21,7 +23,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-
+using Hangfire;
 namespace JAP_Management.Backoffice.Extensions
 {
     public static class ProgramExtension
@@ -123,6 +125,9 @@ namespace JAP_Management.Backoffice.Extensions
                         .AllowAnyOrigin());
             });
 
+            //hangfire
+            services.AddHangfire(x => x.UseSqlServerStorage(@"Data Source=localhost;Initial Catalog=JAP_ManagementDB;Integrated Security=True;Pooling=False"));
+            services.AddHangfireServer();
 
             //repositories
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
@@ -131,6 +136,7 @@ namespace JAP_Management.Backoffice.Extensions
             services.AddScoped<IProgramRepository, ProgramRepository>();
             services.AddScoped<ISelectionRepository, SelectionRepository>();
             services.AddScoped<IRankRepository, RankRepository>();
+            services.AddScoped<IProgramItemRepository, ProgramItemRepository>();
 
 
             //services
@@ -140,6 +146,7 @@ namespace JAP_Management.Backoffice.Extensions
             services.AddScoped<ISelectionServicee, SelectionService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IRankService, RankService>();
+            services.AddScoped<IProgramItemService, ProgramItemService>();
 
             return services;
         }

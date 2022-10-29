@@ -12,6 +12,8 @@ import { AppConstants } from 'src/app/core/common/app-constants';
 import { MatSelectChange } from '@angular/material/select';
 import { DetailsDialogComponent } from '../../dialogs/details/details.dialog.component';
 import { ProgramService } from 'src/app/core/services/data-services/program.service';
+import { AddDialogComponent } from '../../dialogs/add/add.dialog.component';
+import { ItemsDialogComponent } from '../../dialogs/items/items.dialog.component';
 
 @Component({
   selector: 'app-program-list',
@@ -114,7 +116,19 @@ export class ProgramListComponent extends BaseComponent implements OnInit {
   refresh() {
     this.loadData();
   }
+  addNew() {
+    const dialogRef = this.dialog.open(AddDialogComponent, {
+      data: {}
+    });
+    
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.toastr.success("Lecture/Event added successfully.");
+        this.loadData();
+      }
+    });
+  }
   details(id: number) {
    
     const dialogRef = this.dialog.open(DetailsDialogComponent, {
@@ -127,4 +141,18 @@ export class ProgramListComponent extends BaseComponent implements OnInit {
       }
     });
   }
+
+  items(id: number) {
+   
+    const dialogRef = this.dialog.open(ItemsDialogComponent, {
+      data: {id: id}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.loadData();
+      }
+    });
+  }
+
 }

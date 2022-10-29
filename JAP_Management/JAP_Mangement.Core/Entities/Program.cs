@@ -12,6 +12,6 @@ namespace JAP_Management.Core.Entities
         public string Name{ get; set; }
         public string Description{ get; set; }
         public virtual ICollection<Technologies>? Technologies { get; set; }
-
+        public virtual ICollection<ProgramItems>? ProgramItems { get; set; }
     }
 }

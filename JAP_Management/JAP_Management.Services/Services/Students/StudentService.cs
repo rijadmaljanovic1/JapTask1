@@ -120,19 +120,14 @@ namespace JAP_Management.Services.Services.Students
         {
             try
             {
-                var student = await _studentRepository.GetStudentById(studentId);
+                var student = await _studentRepository.GetStudentById(studentId, userId);
 
                 if (student == null)
                 {
                     return null;
                 }
 
-                var mappedStudent = _mapper.Map<StudentModel>(student);
-
-                // get user comments for students
-                mappedStudent.CommentByUser = student.Comments.FirstOrDefault(mr => mr.AdminId == userId)?.Comment ?? "/";
-
-                return mappedStudent;
+                return student;
 
             }
             catch (Exception ex)
@@ -149,7 +144,7 @@ namespace JAP_Management.Services.Services.Students
         {
             try
             {
-                var student = await _studentRepository.GetStudentById(studentId);
+                var student = await _studentRepository.GetStudentById(studentId, userId);
 
                 if (student == null)
                 {
@@ -213,6 +208,14 @@ namespace JAP_Management.Services.Services.Students
                 Console.WriteLine("Error -> ", ex);
                 return null;
             }
+        }
+
+        #endregion
+
+        #region BackgroundMailSender
+        public async Task BackgroundMailSender()
+        {
+
         }
 
         #endregion

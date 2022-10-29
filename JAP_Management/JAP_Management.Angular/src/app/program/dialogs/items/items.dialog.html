@@ -1,0 +1,54 @@
+<div  class="container">
+  <h2 *ngIf="!empty" mat-dialog-title>Lectures and events for the program</h2>
+  <h2 *ngIf="empty" mat-dialog-title>No lectures or events currently in this program</h2>
+  <h4 *ngIf="!empty">Drag & drop to sort the items</h4>
+  <h4 style="text-align: center;" *ngIf="empty">Nothing to see here..</h4>
+  <table *ngIf="!empty" mat-table #table [dataSource]="dataSource" class="mat-elevation-z1"
+  cdkDropList
+  [cdkDropListData]="dataSource"
+  (cdkDropListDropped)="dropTable($event)">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container *ngIf="orderNumber" matColumnDef="orderNumber">
+    <th mat-header-cell *matHeaderCellDef>Order No.</th>
+    <td mat-cell *matCellDef="let element">{{element.orderNumber}}</td>
+  </ng-container>
+  <ng-container *ngIf="!orderNumber" matColumnDef="orderNumber">
+    <th  mat-header-cell *matHeaderCellDef>Drag </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-icon cdkDragHandle>reorder</mat-icon>
+    </td>
+  </ng-container>
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th  mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Url Column -->
+  <ng-container matColumnDef="url">
+    <th mat-header-cell *matHeaderCellDef> Url </th>
+    <td mat-cell *matCellDef="let element"> {{element.url}} </td>
+  </ng-container>
+
+  <!-- Expected Column -->
+  <ng-container matColumnDef="expectedHours">
+    <th mat-header-cell *matHeaderCellDef> Exp. work hours</th>
+    <td mat-cell *matCellDef="let element"> {{element.expectedHours}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag [cdkDragData]="row"></tr>
+  </table>
+  <br>
+  <form class="mat-dialog-content"(ngSubmit)="submit"  #formControl="ngForm">
+    
+    <div >
+      <button *ngIf="!empty" mat-button  [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
+      <button mat-button (click)="onNoClick()" >Return</button>
+    </div>
+  </form>
+</div>

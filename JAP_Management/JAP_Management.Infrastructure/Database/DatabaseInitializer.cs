@@ -386,7 +386,8 @@ namespace JAP_Management.Infrastructure.Database
                         SelectionName = "JAP_DEV/2022",
                         StatusId = 1,
                         Year = "2022",
-                        ProgramId = 1
+                        ProgramId = 1,
+                        StartDate=DateTime.Now
                     });
                 }
                 else if (i == 2)
@@ -592,6 +593,69 @@ namespace JAP_Management.Infrastructure.Database
                 BaseUserId = harun.Id
             });
             context.Admins.AddRange(adminList);
+            context.SaveChanges();
+
+            #endregion
+
+            #region ItemsDataSeed
+
+            var itemsList = new List<Item>();
+
+            for (int i = 1; i <= 5; i++)
+            {
+                if (i == 1)
+                {
+                    itemsList.Add(new Item
+                    {
+                        Name = ".Net and SQL task",
+                        Description = "Use postman for API testing",
+                        Url = "",
+                        ExpectedHours = 20
+                    });
+                }
+                else if (i == 2)
+                {
+                    itemsList.Add(new Item
+                    {
+                        Name = "Postman course",
+                        Description = "Backend and frontend",
+                        Url = "https://google.com/",
+                        ExpectedHours = 16
+                    });
+                }
+                else if (i == 3)
+                {
+                    itemsList.Add(new Item
+                    {
+                        Name = "Task refactoring",
+                        Description = "Backend and frontend",
+                        Url = "",
+                        ExpectedHours = 16
+                    });
+                }
+                else if (i == 4)
+                {
+                    itemsList.Add(new Item
+                    {
+                        Name = "Angular course",
+                        Description = "Watch on udemy",
+                        Url = "https://google.com/",
+                        ExpectedHours = 25
+                    });
+                }
+                else if (i == 5)
+                {
+                    itemsList.Add(new Item
+                    {
+                        Name = "Unit testing course",
+                        Description = "Basics of unit tests",
+                        Url = "https://google.com/",
+                        ExpectedHours = 8
+                    });
+                }
+
+            }
+            context.Items.AddRange(itemsList);
             context.SaveChanges();
 
             #endregion

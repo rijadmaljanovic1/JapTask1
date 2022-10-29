@@ -113,5 +113,13 @@ namespace JAP_Management.Repositories.Repositories.Selection
             return selection;
         }
 
+        public async Task<JAP_Management.Core.Entities.Selection> GetSelectionByProgramId(int programId)
+        {
+            var selection = await _databaseContext.Selections.Where(m=> m.ProgramId == programId)
+                .FirstOrDefaultAsync();
+
+            return selection;
+        }
+
     }
 }

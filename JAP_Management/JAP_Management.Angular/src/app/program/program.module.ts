@@ -36,13 +36,17 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatStepperModule } from '@angular/material/stepper';
 import { DetailsDialogComponent } from './dialogs/details/details.dialog.component';
+import { AddDialogComponent } from './dialogs/add/add.dialog.component';
+import { ItemsDialogComponent } from './dialogs/items/items.dialog.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
     ProgramHomeComponent,
     ProgramListComponent,
     DetailsDialogComponent,
-    
+    AddDialogComponent,
+    ItemsDialogComponent
   ],
   imports: [
     CommonModule,
@@ -79,6 +83,7 @@ import { DetailsDialogComponent } from './dialogs/details/details.dialog.compone
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
+    DragDropModule
   ]
 })
 export class ProgramModule { }

@@ -17,5 +17,6 @@ namespace JAP_Management.Core.Models
         public string StudentStatusName { get; set; }
         public string CommentByUser { get; set; }
 
+        public List<StudentItemsModel> Items { get; set; }
     }
 }

@@ -1,13 +1,41 @@
-<div style="text-align: center; ">
+<div >
   <p></p>
-  <h1> <span class="label label-default"> {{student?.fullName}}</span></h1>
+  <h1> <span style="font-weight:bold;" class="label label-default"> {{student?.fullName}}</span></h1>
   <p></p>
-  <h3> Mentor:<span class="label label-default"> {{student?.mentorName}}</span></h3>
+  <h3> Mentor:<span style="font-weight:bold;" class="label label-default"> {{student?.mentorName}}</span></h3>
   <p></p>
-  <h3> Program:<span class="label label-default"> {{student?.programName}}</span></h3>
+  <h3> Program:<span style="font-weight:bold;" class="label label-default"> {{student?.programName}}</span></h3>
   <p></p>
-  <h3> Selection:<span class="label label-default"> {{student?.selectionName}}</span></h3>
+  <h3> Selection:<span style="font-weight:bold;" class="label label-default"> {{student?.selectionName}}</span></h3>
   <p></p>
-  <h3> Comment from admin:<span class="label label-default"> {{student?.commentByUser}}</span></h3>
+  <h3> Comment from mentor:<span style="font-weight:bold;" class="label label-default"> {{student?.commentByUser}}</span></h3>
   <p></p>
 </div>
+<table style="text-align:center ;" class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Name</th>
+			<th scope="col">Url</th>
+			<th scope="col">% done</th>
+			<th scope="col">Status</th>
+			<th scope="col">Exp. work hours</th>
+			<th scope="col">Start</th>
+			<th scope="col">End</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let student of student.items; index as i">
+			<th scope="row">{{ i+1 }}</th>
+			<td>
+				{{ student.itemName }}
+			</td>
+			<td>{{ student.url  }}</td>
+			<td>{{ student.percentageDone  }}</td>
+			<td>{{ student.candidateStatus  }}</td>
+			<td>{{ student.expectedHours  }}</td>
+			<td>{{ student.startDate | date }}</td>
+			<td>{{ student.endDate | date }}</td>
+		</tr>
+	</tbody>
+</table>

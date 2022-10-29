@@ -17,6 +17,8 @@ namespace JAP_Management.Services.Services.Students
         Task<StudentUpsertRequest> UpdateStudentAsync(string studentId, StudentUpsertRequest model);
         Task<StudentUpsertRequest> GetStudentByUpsertId(string studentId, string userId);
         Task<StudentModel> DeleteStudentAsync(string id);
+        Task BackgroundMailSender();
+
 
     }
 }

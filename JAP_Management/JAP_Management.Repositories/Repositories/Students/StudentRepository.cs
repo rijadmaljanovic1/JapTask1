@@ -9,13 +9,16 @@ using System.Text;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using JAP_Management.Repositories.Repositories.Base;
+using AutoMapper;
 
 namespace JAP_Management.Repositories.Repositories.Students
 {
     public class StudentRepository : BaseRepository<Student>, IStudentRepository
     {
         private readonly DatabaseContext _databaseContext;
-        public StudentRepository(DatabaseContext databaseContext) : base(databaseContext)
+        private readonly IMapper _mapper;
+
+        public StudentRepository(DatabaseContext databaseContext, IMapper _mapper) : base(databaseContext)
         {
             _databaseContext = databaseContext;
         }
@@ -50,7 +53,6 @@ namespace JAP_Management.Repositories.Repositories.Students
             }
         }
 
-
         public async Task<Student> AddStudentAsync(Student mappedStudent)
         {
             var newStudent = new Student()
@@ -63,6 +65,22 @@ namespace JAP_Management.Repositories.Repositories.Students
             };
             _databaseContext.Students.Add(newStudent);
             _databaseContext.SaveChanges();
+
+            var selectionItems = await _databaseContext.SelectionItems.Where(m => m.SelectionId == mappedStudent.SelectionId).ToListAsync();
+            var studentItems = new List<StudentItem>();
+
+            foreach (var item in selectionItems)
+            {
+                studentItems.Add(new StudentItem()
+                {
+                    StudentId = mappedStudent.BaseUserId,
+                    ItemId = item.ItemId,
+                    PercentageDone = "0%",
+                    CandidateStatus = "NotStarted"
+                });
+            }
+            await _databaseContext.AddRangeAsync(studentItems);
+            await _databaseContext.SaveChangesAsync();
 
             return newStudent;
         }
@@ -128,9 +146,9 @@ namespace JAP_Management.Repositories.Repositories.Students
             return student.BaseUserId;
         }
 
-        public async Task<Student> GetStudentById(string studentId)
+        public async Task<StudentModel> GetStudentById(string studentId, string userId)
         {
-            return await _databaseContext.Students
+            var student = await _databaseContext.Students
                 .Include(z => z.Comments)
                 .Include(m => m.Selection)
                 .Include(m => m.StudentStatus)
@@ -139,6 +157,73 @@ namespace JAP_Management.Repositories.Repositories.Students
                 .Include(m => m.Program)
                 .ThenInclude(m => m.Technologies)
                 .FirstOrDefaultAsync(m => m.BaseUserId == studentId);
+
+            var mappedStudent = new StudentModel()
+            {
+                BaseUserId = student.BaseUserId,
+                FullName = student.BaseUser.FirstName + ' ' + student.BaseUser.LastName,
+                MentorName = student.Mentor.FullName,
+                SelectionName = student.Selection.SelectionName,
+                ProgramName = student.Program.Name,
+                StudentStatusName = student.StudentStatus.Name,
+            };
+
+            mappedStudent.CommentByUser = student.Comments.FirstOrDefault(mr => mr.AdminId == userId)?.Comment ?? "/";
+
+            var studentItems = await _databaseContext.StudentItems.Where(m => m.StudentId == student.BaseUserId).ToListAsync();
+
+            var selectionItems = await _databaseContext.SelectionItems.Where(m => m.SelectionId == student.SelectionId).ToListAsync();
+
+            var programItems = await _databaseContext.ProgramItems.ToListAsync();
+            programItems = programItems.OrderBy(m => m.OrderNumber).ToList();
+
+            var allItems = await _databaseContext.Items.ToListAsync();
+
+            mappedStudent.Items = new List<StudentItemsModel>();
+
+
+            foreach (var item in studentItems)
+            {
+                foreach (var x in allItems)
+                {
+                    if (item.ItemId == x.Id)
+                    {
+                        mappedStudent.Items.Add(new StudentItemsModel()
+                        {
+                            ItemId = x.Id,
+                            ItemName = x.Name,
+                            Url = x.Url,
+                            ExpectedHours = x.ExpectedHours,
+                        });
+                    }
+                }
+            }
+            foreach (var item in mappedStudent.Items)
+            {
+                foreach (var x in selectionItems)
+                {
+                    if (item.ItemId == x.ItemId)
+                    {
+                        item.StartDate = x.StartDate;
+                        item.EndDate = x.EndDate;
+                    }
+                }
+            }
+            foreach (var item in mappedStudent.Items)
+            {
+                foreach (var program in programItems)
+                {
+                    if (item.ItemId == program.ItemId)
+                    {
+                        item.OrderNumber = program.OrderNumber;
+                    }
+
+                }
+            }
+            var newStudent = new StudentModel();
+            mappedStudent.Items = mappedStudent.Items.OrderBy(m => m.OrderNumber).ToList();
+
+            return mappedStudent;
         }
 
         public async Task<Student> CommentStudentAsync(string studentId, string userId, string comment)
@@ -162,6 +247,10 @@ namespace JAP_Management.Repositories.Repositories.Students
 
             return await _databaseContext.Students
                 .FirstOrDefaultAsync(m => m.BaseUserId == studentId);
+        }
+        public async Task BackgroundEmailSender()
+        {
+           
         }
     }
 }

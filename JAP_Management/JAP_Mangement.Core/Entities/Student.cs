@@ -21,6 +21,7 @@ namespace JAP_Management.Core.Entities
         public int StudentStatusId { get; set; }
         public virtual StudentStatus? StudentStatus { get; set; }
         public virtual ICollection<Comments>? Comments { get; set; }
+        public virtual ICollection<StudentItem> StudentItems{ get; set; }
 
     }
 }
